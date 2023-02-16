@@ -1,3 +1,4 @@
+import { GiConsoleController } from "react-icons/gi";
 import { createMachine, assign, interpret, raise } from "xstate";
 import { send } from "xstate/lib/actions";
 import { dealCards } from "../services/dealCards";
@@ -19,6 +20,9 @@ export const durakMachine =
         count: 5,
         trumpCard: {},
         playingField: [],
+        defendStatus: false,
+        currentInstruction: "",
+        discardPile: [],
       },
       states: {
         preGame: {
@@ -27,28 +31,19 @@ export const durakMachine =
           },
         },
         dealingCards: {
-          invoke: {
-            src: dealCards,
-            onDone: {
-              target: "selectingTrump",
-              actions: assign((context, event) => event.data),
-            },
-          },
+          entry: assign(dealCards),
+          always: "selectingTrump",
         },
         selectingTrump: {
-          invoke: {
-            src: async (context) => {
-              const topCard = context.deck.pop();
-              return topCard;
-            },
-            onDone: {
-              actions: assign((context, event) => ({
-                ...context,
-                trumpCard: event.data,
-              })),
-              target: "humanTurn",
-            },
-          },
+          entry: assign((context, event) => {
+            const topCard = context.deck.pop();
+            return {
+              ...context,
+              currentInstruction: "Your turn to attack.",
+              trumpCard: topCard,
+            };
+          }),
+          always: "humanTurn",
         },
         humanTurn: {
           on: {
@@ -82,6 +77,26 @@ export const durakMachine =
         },
         cleanUp: {
           // move cards to discard pile
+          entry: assign((context, event) => {
+            const playingFieldCards = context.playingField;
+            const discards = playingFieldCards.reduce((result, item) => {
+              if (item.attack) {
+                result.push(item.attack);
+              }
+              if (item.defend) {
+                result.push(item.defend);
+              }
+              return result;
+            }, []);
+            console.log({ discards });
+            return {
+              ...context,
+              currentInstruction: "Your turn to attack",
+              playingField: [],
+              discardPile: discards,
+            };
+          }),
+          always: "humanTurn",
         },
         computerCannotDefend: {
           entry: () => {
@@ -89,18 +104,12 @@ export const durakMachine =
           },
         },
         computerTurn: {
-          invoke: {
-            src: defendHumanAttack,
-            onDone: {
-              actions: assign((context, event) => {
-                return {
-                  ...context,
-                  hands: event.data.hands,
-                };
-              }),
-              target: "humanTurn",
-            },
-          },
+          entry: assign((context, event) => {
+            const newContext = defendHumanAttack(context, event);
+            console.log({ newContext });
+            return newContext;
+          }),
+          always: "humanTurn",
           on: {
             HUMAN_TURN: "humanTurn",
           },
@@ -121,11 +130,12 @@ export const durakMachine =
 function isValidCardSelection() {
   return true;
 }
-async function defendHumanAttack(context, event) {
+function defendHumanAttack(context, event) {
   const { card } = event;
   const [playerHand, computerHand] = context.hands;
 
   let defendStatus;
+  let instruction;
 
   // Find a valid card to defend with
   let validCard = null;
@@ -134,18 +144,21 @@ async function defendHumanAttack(context, event) {
     if (c.suit === card.suit && c.value > card.value) {
       // This card can be used to defend against the attack card
       defendStatus = true;
+      instruction = "Defended. Continue attack or move to discard.";
       validCard = computerHand.splice(i, 1)[0];
-      break;
     }
   }
 
   // If no valid card was found, the attack succeeds
   if (!validCard) {
     console.log("Attack succeeds");
+    instruction = "Cannot defend. Add cards or end your turn.";
     defendStatus = false;
-    // Set the defend card to null to indicate that the attack succeeded
-    const newPlayingField = [{ attack: card, defend: null }];
-    return { ...context, playingField: newPlayingField };
+    return {
+      ...context,
+      defendStatus,
+      currentInstruction: instruction,
+    };
   }
 
   console.log(`Defending with ${validCard}`);
@@ -168,9 +181,16 @@ async function defendHumanAttack(context, event) {
     }
   }
 
-  return {
+  console.log(instruction);
+
+  const newContext = {
     ...context,
+    currentInstruction: instruction,
     defendStatus,
     hands: newHands,
   };
+
+  console.log({ newContext });
+
+  return newContext;
 }

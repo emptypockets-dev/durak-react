@@ -27,7 +27,7 @@ const createDeck = () => {
   return deck;
 };
 
-export const dealCards = async (context, event) => {
+export const dealCards = (context, event) => {
   const unshuffledDeck = createDeck(); // create a deck of cards
   const deck = shuffle(unshuffledDeck); // shuffle the deck
   const { numPlayers, numCardsPerHand } = context.gameConfig; // get the number of players and cards per hand from the context

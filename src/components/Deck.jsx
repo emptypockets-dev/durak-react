@@ -13,7 +13,7 @@ export default function Deck() {
 
   return (
     <div className="relative">
-      {trumpCard.suit && (
+      {trumpCard?.suit && (
         <div className="absolute -rotate-90 -translate-x-10">
           <PlayingCard card={trumpCard} />
         </div>

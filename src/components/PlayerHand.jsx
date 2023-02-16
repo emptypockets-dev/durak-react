@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { DurakMachineContext } from "../providers/MachineContextProvider";
 import PlayingCard from "./PlayingCard";
 
@@ -5,6 +6,10 @@ export default function PlayerHand() {
   const [state, send] = DurakMachineContext.useActor();
   const hands = DurakMachineContext.useSelector((state) => state.context.hands);
   const playerHand = hands[0];
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
 
   function handleClick(card) {
     console.log(card);
@@ -26,7 +31,9 @@ export default function PlayerHand() {
           ))}
         </ul>
       )}
-      <button onClick={handleDone}>Done Attacking</button>
+      {/* <button onClick={handleDone} className="text-white">
+        Done Attacking
+      </button> */}
     </div>
   );
 }

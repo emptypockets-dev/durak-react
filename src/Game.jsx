@@ -7,6 +7,7 @@ import ComputerHand from "./components/ComputerHand";
 import Layout from "./components/Layout";
 import GameInstruction from "./components/GameInstruction";
 import PlayingField from "./components/PlayingField";
+import DiscardPile from "./components/DiscardPile";
 
 function Game() {
   return (
@@ -22,19 +23,21 @@ function Game() {
             <PlayingField />
           </div>
           {/* right side */}
-          <div className=" text-white w-28 flex flex-col justify-between">
+          <div className=" text-white w-28 h-40 flex flex-col justify-between -translate-y-16 -translate-x-6">
             <div>
               <Deck />
             </div>
-            <div className="bg-slate-900 h-12">discard</div>
+            <div className="">
+              <DiscardPile />
+            </div>
           </div>
         </div>
         <div className="">
           <GameInstruction />
           <PlayerHand />
         </div>
-        <div className="bg-orange-200 w-fit">hat</div>
-        <div className="bg-orange-100 w-fit">settings</div>
+        {/* <div className="bg-orange-200 w-fit">hat</div> */}
+        {/* <div className="bg-orange-100 w-fit">settings</div> */}
       </Layout>
     </MachineContextProvider>
   );

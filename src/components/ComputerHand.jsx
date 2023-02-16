@@ -19,7 +19,7 @@ export default function ComputerHand() {
               key={`${card.suit} - ${card.value}`}
             >
               <PlayingCardBack />
-              <PlayingCard card={card} />
+              {/* <PlayingCard card={card} /> */}
             </li>
           ))}
         </ul>
