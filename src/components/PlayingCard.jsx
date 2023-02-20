@@ -37,14 +37,14 @@ const PlayingCard = ({ card, handleClick }) => {
       className="relative mr-1 shadow-lg bg-white border border-gray-400 rounded-lg p-4 flex items-center justify-center h-32 w-24"
     >
       <div className="absolute top-0 left-2 flex flex-col items-center">
-        <div className={clsx(textClass, "text-xl")}>{card.value}</div>
+        <div className={clsx(textClass, "text-xl")}>{card.displayValue}</div>
         <div className="" style={{ color: iconColor }}>
           {icon}
         </div>
       </div>
 
       <div className="absolute bottom-1 right-2 flex flex-col items-center">
-        <div className={clsx(textClass, "text-xl")}>{card.value}</div>
+        <div className={clsx(textClass, "text-xl")}>{card.displayValue}</div>
         <div className="" style={{ color: iconColor }}>
           {icon}
         </div>

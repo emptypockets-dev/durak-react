@@ -8,14 +8,16 @@ export default function GameInstruction() {
     (state) => state.context.currentInstruction
   );
 
-  // useEffect(() => {
-  //   console.log(state);
-  //   console.log({ currentInstruction });
-  // }, [state]);
+  useEffect(() => {
+    // console.log(state);
+    // console.log({ currentInstruction });
+  }, [state]);
 
   return (
-    <p className="text-white text-lg">
-      {currentState}, {currentInstruction}
-    </p>
+    <>
+      <p className="text-white text-lg">{currentInstruction}</p>
+      <p className="text-white">computer:{state?.value?.computerTurn}</p>
+      <p className="text-white">human: {state?.value?.humanTurn}</p>
+    </>
   );
 }

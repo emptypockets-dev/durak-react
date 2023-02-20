@@ -8,7 +8,7 @@ export default function PlayerHand() {
   const playerHand = hands[0];
 
   useEffect(() => {
-    console.log(state);
+    // console.log(state);
   }, [state]);
 
   function handleClick(card) {
@@ -20,20 +20,30 @@ export default function PlayerHand() {
     send({ type: "DONE_ATTACKING" });
   }
 
+  function cannotDefend() {
+    console.log("cannot defend clicked");
+    send({ type: "CANNOT_DEFEND" });
+  }
+
   return (
     <div>
       {hands.length > 0 && (
         <ul className="flex">
           {playerHand.map((card, index) => (
-            <li key={`${card.suit} - ${card.value}`}>
+            <li
+              key={card.id}
+              style={{
+                transform: `translateX(calc(-40px * ${index})) rotate(-1deg)`,
+              }}
+            >
               <PlayingCard card={card} handleClick={handleClick} />
             </li>
           ))}
         </ul>
       )}
-      {/* <button onClick={handleDone} className="text-white">
-        Done Attacking
-      </button> */}
+      <button onClick={cannotDefend} className="text-white">
+        Cannot Defend
+      </button>
     </div>
   );
 }

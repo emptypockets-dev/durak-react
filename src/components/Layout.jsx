@@ -12,7 +12,7 @@ export default function Layout({ children }) {
   return (
     <div
       onDoubleClick={handleDoubleClick}
-      className="p-5"
+      className="p-5 select-none"
       style={{ backgroundImage: `url(${bg})` }}
     >
       {children}

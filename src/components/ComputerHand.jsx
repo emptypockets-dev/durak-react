@@ -14,12 +14,12 @@ export default function ComputerHand() {
           {computerHand.map((card, index) => (
             <li
               style={{
-                transform: `translateX(calc(-80px * ${index})) rotate(-1deg)`,
+                transform: `translateX(calc(-40px * ${index})) rotate(-1deg)`,
               }}
               key={`${card.suit} - ${card.value}`}
             >
               <PlayingCardBack />
-              {/* <PlayingCard card={card} /> */}
+              <PlayingCard card={card} />
             </li>
           ))}
         </ul>

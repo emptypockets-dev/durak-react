@@ -4,14 +4,12 @@ import PlayingCard from "./PlayingCard";
 import PlayingCardBack from "./PlayingCardBack";
 
 export default function DiscardPile() {
-  const [state, send] = DurakMachineContext.useActor();
   const discardPile = DurakMachineContext.useSelector(
     (state) => state.context.discardPile
   );
 
   useEffect(() => {
-    console.log({ discardPile });
-    // console.log(state);
+    // console.log({ discardPile });
   }, [discardPile]);
 
   return (

@@ -4,7 +4,7 @@ import Game from "./Game";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Game />
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Game />
+  // </React.StrictMode>
 );

@@ -1,13 +1,22 @@
 import { DurakMachineContext } from "../providers/MachineContextProvider";
 import PlayingCardBack from "./PlayingCardBack";
 import PlayingCard from "./PlayingCard";
+import { useEffect, useState } from "react";
 
 export default function Deck() {
-  const [state, send] = DurakMachineContext.useActor();
   const deck = DurakMachineContext.useSelector((state) => state.context.deck);
+  const deckLength = DurakMachineContext.useSelector(
+    (state) => state.context.deck.length
+  );
   const trumpCard = DurakMachineContext.useSelector(
     (state) => state.context.trumpCard
   );
+
+  // const [deckLength, setDeckLength] = useState(() => deck.length);
+
+  // useEffect(() => {
+  //   setDeckLength(deck.length);
+  // }, deck);
 
   const cardsStack = Array(deck.length).fill(null);
 
@@ -15,7 +24,7 @@ export default function Deck() {
     <div className="relative">
       {trumpCard?.suit && (
         <div className="absolute -rotate-90 -translate-x-10">
-          <PlayingCard card={trumpCard} />
+          {cardsStack.length > 0 && <PlayingCard card={trumpCard} />}
         </div>
       )}
       <ul className="relative">
@@ -38,7 +47,7 @@ export default function Deck() {
         })}
       </ul>
       <span className="absolute -top-2 -right-2 block bg-black/60 text-white rounded-full text-sm p-1.5">
-        {deck.length}
+        {deckLength}
       </span>
     </div>
   );
