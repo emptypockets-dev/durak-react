@@ -8,7 +8,7 @@ export default function ComputerHand() {
   const computerHand = hands[1];
 
   return (
-    <div>
+    <div className="h-48">
       {hands.length > 0 && (
         <ul className="flex mb-7">
           {computerHand.map((card, index) => (
@@ -19,7 +19,7 @@ export default function ComputerHand() {
               key={`${card.suit} - ${card.value}`}
             >
               <PlayingCardBack />
-              <PlayingCard card={card} />
+              {/* <PlayingCard card={card} /> */}
             </li>
           ))}
         </ul>

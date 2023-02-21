@@ -1,6 +1,4 @@
-import { GiConsoleController } from "react-icons/gi";
 import { createMachine, assign, interpret, raise } from "xstate";
-import { send } from "xstate/lib/actions";
 import { dealCards } from "../services/dealCards";
 
 export const durakMachine =
@@ -144,7 +142,9 @@ export const durakMachine =
               ],
               CANNOT_DEFEND: {
                 cond: (ctx) => ctx.playingField.length > 0,
-                target: "humanTakesCards",
+                target:
+                  "#Durak.computerTurn.computerFinishAttackAfterHumanTakes",
+                // this was humanTakesCards
                 // computer can add cards
                 // computer can move playfield to discard
                 // computer goes again
@@ -359,6 +359,14 @@ export const durakMachine =
             }),
             always: { target: "#Durak.humanTurn.defending" },
           },
+          computerFinishAttackAfterHumanTakes: {
+            // try to throw in cards
+            entry: assign(computerTryThrowingInCards),
+            always: {
+              target: "#Durak.humanTurn.humanTakesCards",
+            },
+            // then humanTakesCards
+          },
           finishAttack: {},
           Defeated: {
             on: {
@@ -421,12 +429,27 @@ function isValidCardSelectionForDefend(context, event) {
     console.log("cards from playing field after reduce", cardsFromPlayingField);
     /* check if cards in playing field match the value of the selected card */
     const hasMatchingValue = cardsFromPlayingField.some((obj) => {
-      return obj.suit === card.suit;
+      const sameSuit = obj.suit === card.suit;
+      const higherValue = obj.value < card.value;
+      return sameSuit && higherValue;
     });
-    return hasMatchingValue;
+    const isATrumpCard = card.suit === context.trumpCard.suit;
+    console.log("hasMatchingValue", hasMatchingValue);
+    console.log("isAtrumpCard", isATrumpCard);
+    return hasMatchingValue || isATrumpCard;
   } else {
     return true;
   }
+}
+
+function checkForInternalValidCard(defendingCard, card, trumpSuit) {
+  const validSuit = defendingCard.suit === card.suit;
+  console.log("valid suit", validSuit);
+  const validValue = defendingCard.value > card.value;
+  const isTrump = defendingCard.suit === trumpSuit;
+  const attackingCardIsNotTrump = card.suit != trumpSuit;
+  console.log(defendingCard, card);
+  return (validSuit && validValue) || (isTrump && attackingCardIsNotTrump);
 }
 
 function defendHumanAttack(context, event) {
@@ -440,11 +463,14 @@ function defendHumanAttack(context, event) {
   let validCard = null;
   for (let i = 0; i < computerHand.length; i++) {
     const c = computerHand[i];
-    if (c.suit === card.suit && c.value > card.value) {
+    console.log(checkForInternalValidCard(c, card, context.trumpCard.suit));
+    if (checkForInternalValidCard(c, card, context.trumpCard.suit)) {
       // This card can be used to defend against the attack card
       defendStatus = true;
       instruction = "Defended. Continue attack or move to discard.";
       validCard = computerHand.splice(i, 1)[0];
+      console.log("valid card in this loop", validCard);
+      break;
     }
   }
 
@@ -465,18 +491,15 @@ function defendHumanAttack(context, event) {
 
   const array = [...context.playingField];
   let attackDefend;
+
   for (let i = 0; i < array.length; i++) {
     const obj = array[i];
-
     // Check if the object's attack property matches the target attack object
     if (obj.attack === card) {
       attackDefend = obj;
       attackDefend.defend = validCard;
-      // console.log({ attackDefend });
     }
   }
-
-  // console.log(instruction);
 
   const newContext = {
     ...context,
@@ -556,6 +579,61 @@ function attackHuman(context, event) {
   };
 
   return newContext;
+}
+
+function computerTryThrowingInCards(context, event) {
+  console.log("computer try throwing in cards happened");
+
+  const [playerHand, computerHand] = context.hands;
+  const copyComputerHand = [...computerHand];
+  const playingField = [...context.playingField];
+
+  const removeCardFromHand = (card) => {
+    const index = computerHand.indexOf(card);
+    if (index > -1) {
+      computerHand.splice(index, 1);
+    }
+  };
+
+  const cardsFromPlayingField = playingField.reduce((acc, curr) => {
+    acc.push(curr.attack);
+    if (curr.defend) {
+      acc.push(curr.defend);
+    }
+    return acc;
+  }, []);
+
+  // let allValues = cardsFromPlayingField
+  //   .map((obj) => obj.value)
+  //   .concat(computerHand.map((obj) => obj.value));
+
+  const options = copyComputerHand.filter((card) => {
+    return cardsFromPlayingField.some((obj) => obj.value === card.value);
+  });
+
+  let cardsToAdd = [];
+
+  options.forEach((card) => {
+    if (card) {
+      const attackDefend = { attack: card, defend: null };
+      cardsToAdd.push(attackDefend);
+      removeCardFromHand(card);
+    }
+  });
+
+  // see if any of the values of cards in your hand
+  // match the values of any cards in the playingField
+
+  const newPlayingField = [...context.playingField, ...cardsToAdd];
+
+  console.log("new playing field", newPlayingField);
+
+  // console.log("the computer should not have throwin in", options);
+
+  return {
+    ...context,
+    playingField: newPlayingField,
+  };
 }
 
 function defendComputerAttack(context, event) {
