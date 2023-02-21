@@ -1,5 +1,6 @@
 import { GiHearts, GiDiamonds, GiSpades, GiClubs } from "react-icons/gi";
 import clsx from "clsx";
+import { motion } from "framer-motion";
 
 const PlayingCard = ({ card, handleClick }) => {
   let textClass = "";
@@ -32,7 +33,8 @@ const PlayingCard = ({ card, handleClick }) => {
   }
 
   return (
-    <div
+    <motion.div
+      layoutId={card.id}
       onClick={() => handleClick(card)}
       className="relative mr-1 shadow-lg bg-white border border-gray-400 rounded-lg p-4 flex items-center justify-center h-32 w-24"
     >
@@ -49,7 +51,7 @@ const PlayingCard = ({ card, handleClick }) => {
           {icon}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

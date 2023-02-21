@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { DurakMachineContext } from "../providers/MachineContextProvider";
 import PlayingCard from "./PlayingCard";
+import { motion } from "framer-motion";
+import { LayoutGroup } from "framer-motion";
 
 export default function PlayerHand() {
   const [state, send] = DurakMachineContext.useActor();
@@ -30,18 +32,22 @@ export default function PlayerHand() {
       {hands.length > 0 && (
         <ul className="flex">
           {playerHand.map((card, index) => (
-            <li
+            <motion.li
               key={card.id}
-              style={{
-                transform: `translateX(calc(-40px * ${index})) rotate(-1deg)`,
-              }}
+              drag
+              dragSnapToOrigin
+              dragElastic={0.2}
+              whileDrag={{ scale: 1.2, zIndex: 999 }}
             >
               <PlayingCard card={card} handleClick={handleClick} />
-            </li>
+            </motion.li>
           ))}
         </ul>
       )}
-      <button onClick={cannotDefend} className="text-white">
+      <button
+        onClick={cannotDefend}
+        className="text-sm text-white mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black"
+      >
         Cannot Defend
       </button>
     </div>

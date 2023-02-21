@@ -8,6 +8,8 @@ import GameInstruction from "./components/GameInstruction";
 import PlayingField from "./components/PlayingField";
 import DiscardPile from "./components/DiscardPile";
 import { DurakMachineContext } from "./providers/MachineContextProvider";
+import { motion } from "framer-motion";
+import { LayoutGroup } from "framer-motion";
 
 export default function GamePlay() {
   const [state, send] = DurakMachineContext.useActor();
@@ -30,6 +32,7 @@ export default function GamePlay() {
       ) : (
         <>
           <StartMenu />
+
           <div className="">
             <ComputerHand />
           </div>
@@ -52,6 +55,7 @@ export default function GamePlay() {
             <GameInstruction />
             <PlayerHand />
           </div>
+
           {/* <div className="bg-orange-200 w-fit">hat</div> */}
           {/* <div className="bg-orange-100 w-fit">settings</div> */}
         </>

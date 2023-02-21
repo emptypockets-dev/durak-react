@@ -28,8 +28,10 @@ export const durakMachine =
         },
       },
       starting: {
-        always: {
-          target: "dealing",
+        after: {
+          50: {
+            target: "dealing",
+          },
         },
       },
       dealing: {

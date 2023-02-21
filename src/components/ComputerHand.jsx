@@ -19,7 +19,9 @@ export default function ComputerHand() {
               key={`${card.suit} - ${card.value}`}
             >
               <PlayingCardBack />
-              {/* <PlayingCard card={card} /> */}
+              {/* <div className="-mt-24">
+                <PlayingCard card={card} />
+              </div> */}
             </li>
           ))}
         </ul>

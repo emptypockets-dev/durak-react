@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { DurakMachineContext } from "../providers/MachineContextProvider";
 import PlayingCard from "./PlayingCard";
+import { motion } from "framer-motion";
 
 export default function PlayerHand() {
   const [state, send] = DurakMachineContext.useActor();
@@ -16,20 +17,20 @@ export default function PlayerHand() {
   return (
     <div>
       {playingField.length > 0 && (
-        <ul className="flex">
+        <motion.ul drag className="flex" layout transition={{ duration: 0.3 }}>
           {playingField.map((cardPair, index) => (
             <div key={index} className="flex flex-col">
-              <div className="rotate-2">
+              <motion.div className="rotate-2">
                 <PlayingCard card={cardPair.attack} />
-              </div>
+              </motion.div>
               {cardPair.defend && (
-                <div className="-translate-y-24 rotate-3">
+                <motion.div className="-translate-y-24 rotate-3">
                   <PlayingCard card={cardPair.defend} />
-                </div>
+                </motion.div>
               )}
             </div>
           ))}
-        </ul>
+        </motion.ul>
       )}
     </div>
   );
