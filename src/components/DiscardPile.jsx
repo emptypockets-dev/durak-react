@@ -10,7 +10,7 @@ export default function DiscardPile() {
   );
 
   function randomNum() {
-    return Math.floor(Math.random() * 5) - 1;
+    return Math.floor(Math.random() * 20) - 5;
   }
 
   useEffect(() => {

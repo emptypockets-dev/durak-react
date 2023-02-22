@@ -43,9 +43,9 @@ export default function Deck() {
           );
         })}
       </ul>
-      <span className="absolute -top-2 -right-2 block bg-black/60 text-white rounded-full text-sm p-1.5">
+      {/* <span className="absolute -top-2 -right-2 block bg-black/60 text-white rounded-full text-sm p-1.5">
         {deck.length}
-      </span>
+      </span> */}
     </div>
   );
 }

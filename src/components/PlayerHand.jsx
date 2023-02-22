@@ -41,19 +41,21 @@ export default function PlayerHand() {
           ))}
         </motion.ul>
       )}
-      <button
-        onClick={cannotDefend}
-        className="text-sm text-white mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black mr-4"
-      >
-        TAKE CARDS
-      </button>
+      <div className="flex justify-center">
+        <button
+          onClick={cannotDefend}
+          className="text-sm text-white mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black mr-4"
+        >
+          TAKE CARDS
+        </button>
 
-      <button
-        onClick={handleDone}
-        className="text-sm text-white mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black"
-      >
-        DONE
-      </button>
+        <button
+          onClick={handleDone}
+          className="text-sm text-white mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black"
+        >
+          DONE
+        </button>
+      </div>
     </LayoutGroup>
   );
 }
