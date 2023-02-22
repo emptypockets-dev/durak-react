@@ -20,7 +20,7 @@ export default function GamePlay() {
     <Layout>
       {winner ? (
         <div className="h-screen flex place-content-center place-items-center">
-          <h1 className="text-white text-6xl ">
+          <h1 className="text-white text-6xl font-semibold">
             {winner === "human" ? "You win!" : "You lose."}
           </h1>
         </div>

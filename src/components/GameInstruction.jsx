@@ -15,7 +15,9 @@ export default function GameInstruction() {
 
   return (
     <>
-      <p className="text-white text-lg mb-3">{currentInstruction}</p>
+      <p className="text-white text-lg mb-3 font-semibold">
+        {currentInstruction}
+      </p>
       {/* <p className="text-white">computer:{state?.value?.computerTurn}</p> */}
       {/* <p className="text-white">human: {state?.value?.humanTurn}</p> */}
     </>
