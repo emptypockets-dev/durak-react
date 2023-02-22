@@ -1,6 +1,6 @@
 import playingCardBack from "../assets/playing-card-back.png";
 
-const PlayingCardBack = ({ width = "h-32", height = "w-24" }) => {
+const PlayingCardBack = ({ width = "w-28", height = "h-40" }) => {
   return (
     <div className={`${width} ${height} rounded-lg drop-shadow-md`}>
       <img

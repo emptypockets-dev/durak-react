@@ -20,7 +20,7 @@ export default function GamePlay() {
     <Layout>
       {winner ? (
         <div className="h-screen flex place-content-center place-items-center">
-          <h1 className="text-white text-6xl font-semibold">
+          <h1 className="bg-gold-gradient text-gold-gradient bg-clip-text text-12xl leading-none text-9xl uppercase font-semibold">
             {winner === "human" ? "You win!" : "You lose."}
           </h1>
         </div>
@@ -33,6 +33,7 @@ export default function GamePlay() {
           <PlayingField />
 
           <DiscardPile />
+
           <Deck />
 
           <GameInstruction />

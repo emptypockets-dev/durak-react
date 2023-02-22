@@ -20,7 +20,7 @@ export default function PlayerHand() {
 
   return (
     <AnimatePresence>
-      <motion.div style={{ width: "80%", height: "200px" }}>
+      <motion.div style={{ width: "80%", height: "220px" }}>
         {playingField.length > 0 && (
           <motion.ul transition={{ duration: 0.3 }} style={{ display: "flex" }}>
             {playingField.map((cardPair, index) => (
