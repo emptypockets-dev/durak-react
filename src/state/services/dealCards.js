@@ -76,7 +76,6 @@ export const dealCards = (context, event) => {
     ...context,
     deck,
     hands,
-    trumpCard,
   };
 
   return updatedContext;
