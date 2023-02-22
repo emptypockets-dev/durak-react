@@ -36,9 +36,7 @@ const PlayingCard = ({ card, handleClick }) => {
     <motion.div
       layoutId={card.id}
       onClick={() => handleClick(card)}
-      className="relative mr-1 shadow-lg bg-white border border-gray-400 rounded-lg p-4 flex items-center justify-center h-32 w-24
-
-      "
+      className="relative mr-1 shadow-lg bg-white border border-gray-400 rounded-lg p-4 flex items-center justify-center h-32 w-24"
     >
       <div className="absolute top-0 left-2 flex flex-col items-center">
         <div className={clsx(textClass, "text-xl")}>{card.displayValue}</div>
