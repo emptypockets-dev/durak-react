@@ -48,11 +48,58 @@ export const dealCards = (context, event) => {
     hands.push(hand);
   }
 
+  const trumpCard = deck[0]; // assign the top card on the deck as the trump card
+  hands.forEach((hand) => {
+    // sort the cards in each hand based on their value and trump status
+    hand.sort((a, b) => {
+      if (a.suit === trumpCard.suit && b.suit === trumpCard.suit) {
+        // both cards are trump cards, sort by value
+        return b.value - a.value;
+      } else if (a.suit === trumpCard.suit) {
+        return -1; // a is the trump card, so it should come first
+      } else if (b.suit === trumpCard.suit) {
+        return 1; // b is the trump card, so it should come first
+      } else {
+        // neither card is the trump card
+        if (a.value === b.value) {
+          // if the cards have the same value, sort by suit
+          return a.suit.localeCompare(b.suit);
+        } else {
+          // sort by value
+          return b.value - a.value;
+        }
+      }
+    });
+  });
+
   const updatedContext = {
     ...context,
     deck,
     hands,
+    trumpCard,
   };
 
   return updatedContext;
+};
+
+export const sortHand = (hand, trumpCard) => {
+  return hand.sort((a, b) => {
+    if (a.suit === trumpCard.suit && b.suit === trumpCard.suit) {
+      // both cards are trump cards, sort by value
+      return b.value - a.value;
+    } else if (a.suit === trumpCard.suit) {
+      return -1; // a is the trump card, so it should come first
+    } else if (b.suit === trumpCard.suit) {
+      return 1; // b is the trump card, so it should come first
+    } else {
+      // neither card is the trump card
+      if (a.value === b.value) {
+        // if the cards have the same value, sort by suit
+        return a.suit.localeCompare(b.suit);
+      } else {
+        // sort by value
+        return b.value - a.value;
+      }
+    }
+  });
 };

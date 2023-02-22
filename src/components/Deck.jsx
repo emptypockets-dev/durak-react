@@ -2,6 +2,7 @@ import { DurakMachineContext } from "../providers/MachineContextProvider";
 import PlayingCardBack from "./PlayingCardBack";
 import PlayingCard from "./PlayingCard";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Deck() {
   const deck = DurakMachineContext.useSelector((state) => state.context.deck);
@@ -18,22 +19,21 @@ export default function Deck() {
   //   setDeckLength(deck.length);
   // }, deck);
 
-  const cardsStack = Array(deck.length).fill(null);
+  // const cardsStack = Array(deck.length).fill(null);
 
   return (
     <div className="relative">
-      {trumpCard?.suit && (
-        <div className="absolute -rotate-90 -translate-x-10">
-          {cardsStack.length > 0 && <PlayingCard card={trumpCard} />}
-        </div>
-      )}
-      <ul className="relative">
-        {cardsStack.map((_, index) => {
+      <div className="absolute -rotate-90 -translate-x-10">
+        <PlayingCard card={trumpCard} />
+      </div>
+      <motion.ul className="relative" layout="position">
+        {deck.map((card, index) => {
           const skewAmount = Math.floor(Math.random() * 2) + 1; // generate a random skew amount between 1 and 3 degrees
           const isNegative = Math.random() < 0.5; // randomly choose whether skew should be negative
           const skewValue = isNegative ? -skewAmount : skewAmount; // use negative skew value if isNegative is true
+
           return (
-            <li key={index} className="absolute">
+            <motion.li key={index} className="absolute" layoutId={card.id}>
               <div
                 style={{
                   transform: `rotate(${skewValue}deg)`,
@@ -42,10 +42,10 @@ export default function Deck() {
               >
                 <PlayingCardBack />
               </div>
-            </li>
+            </motion.li>
           );
         })}
-      </ul>
+      </motion.ul>
       <span className="absolute -top-2 -right-2 block bg-black/60 text-white rounded-full text-sm p-1.5">
         {deckLength}
       </span>

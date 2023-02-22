@@ -1,5 +1,5 @@
 import { createMachine, assign, interpret, raise } from "xstate";
-import { dealCards } from "../services/dealCards";
+import { dealCards, sortHand } from "../services/dealCards";
 
 export const durakMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QBECuAnAhgawHQEsIAbMAYgG0AGAXUVAAcB7WfAF30YDs6QAPRAIwAmAKy4AbCIAcAdiHiALAGZxlNUoUAaEAE9BlMQE4pQhWqmUhl8eKUBfO9rRY8sVpnTtOUCjR5MWdi4efgQlISlcQxkpKUMRaRkBESVDLV19IxMzSgsreVsHJwwcXAgwTCJ8b19aJBAAtg5uetDpAVwrFI0FYWiZdL0EAQMo7PNLa0LHEGdS2DBWABV0VABbegBhDwha-2Ym4NbEKSUlXGUBGRlwpVi1Q20hkazTCfybexm51zASAGNWABldyeapQAAKREwOjA6D29UaQRaoFCAmE4lwIniSXiSmk4XET0yYzeuUmBS+xRcuAWANYmww6DAnFYUJhcIRDAOyJCiCEAnOlAGVko4giAo0UmJYVkUXENykInU4tMCiKsxKrlBrAA8gAzABKjFQnF2VDq3MCzT5CEluGFClF4pMgoU0oyCFkmIV4kFAgUToUhnkGp+tJ1BuNpvNAktDR5NuOdsFDpFahdkvdMskHRklGUcSEEUk8TDWtwzIWrAAEpgzbAuQnrUdUYJlDJOkrjNixRZcjKUnnckoBDYrgSROWaQALdb1pYYThlMD6lkQcGkIEAUQAMtvNksAPqbACChuQFv2LZRfEEAiVDuxIgU+Ys-UGglSQgdtnCsT6EQZGnUo5zWBclxXNczU3Hd90PE9z0vONr0OW9QgAWlsMRxEMRQZHiIRRxMEQZWEU5cFiO4lXdP0lAGEC8DAiD0GXcpoI3GozwAOW43Vj2QbcADFt24y8-ERRNWzvBAMI0TErlOZJZFycUbDIs4fwUaQRCsa4gNOYDvgrZjOEXVjcFMpYcDgbZ0AgRsr0km9bXRR8DHiV9yQ-DTAyxGRlUkWRCPCRjLPnMzIMwVh3H+bAtz3A9jzPC8nKtNDXIfMQPJfN9KB8z10XRXB0SEQwVCUNRXyEMKrKimLMDihL4OSpDyBQ5yMuTLD8QkPDXxCh9RDI8xcFSEjkmuLz1WM2cIvM5doti+LkF1bjtyPU8liWU9NgAaQASW4gBxNLmy6ttZPkkqYlHRJVIKEaRExaIIikcR3qSMcpFq+bIP1ap8FgGdTwaprVvWzbtt2w6TrOpEk0uuSFAU27lLfNSiU9NIf0McqZHFK4BDwhJfvAyKLIBzggZBsH4rgpLENSiT0t5ZM3Oy58vPfKaRoDSjvXevCkjfMmWOXKmadB5bmsZlLkPjBHpMw7C+vwwaSJlOIFAuYmMViIi9bFinl3+Eh6wAVXoJslfQ+93K5vKCqGIdcDfUdxwC04qU1Gl-kYDZUFYOEFqg9dN3hqS7bCRQSssAnhVUGJdKx54godYshFxVQEkFML-cD4P0FD9jw5qdrFaj20ejjrOk6TpV5DI-MdYzSR5AMAop1m0oC-oIOQ-q5aI5Z862cu+idZGOvE+FRvU8EZ7KAdQNAxsAiXzHfOA-7ovQ+QVcKmD3Z5aPHa9tEyOXOTFQp-j+u55Tsik6xcJ8zwvoApmmZOEYcp4HqD8VC48ZIYRuB0XC6tdLEWGp6LCDo1AqjiNENIIgBBhUICQYBiMZJOhGjrYwE4RhpHiM9MKbgPBeCgNg5W-IHyUT9CYCISRgzCnwWMImY4Ei9G0j7cM5RKjghodHJ0P4HzExDJYeQgYlBaw6O6Z6G8zjvRRjNak8xFgrHWFsHYwjbQKh1mYKQyhcjuhRjEORFwlQKjxHcRQihyF-DAICEElDwTslhOgPRyYQw+ilJAkUhhBSWIUTY7oKiHE91+PSRk6BmSsg8XCbxl1kiVSsYYXIRFRFBJlMGc4BEYhyGxBk4m5DIxGhNGaZJMkgI5lfBcNBBFDJyDKmo32pQqyLDrA2apaIs6RHkNI-EY5zEyEHMKTo6I0H4UoGccq3d1FMT+qxXpiAsIUUgQNaBQ1SKegsC9M4yoMnKhiKYY2odMFgFWbJFInYCa+nyskKRHpnjCB-PRG4BMs6DNKVE8K5MS6Hxgt4a5GEEiGBKqYRSicYjRA0qkMaNxAy3XouRc5kErI2VgHZByoKLBxydKYoCYpgmFUqhClGaoQwBlwlndFFklqNWwKCl8YgEi3EUO+AsYzCpinOLEGIgoQzKhRvSiWgNgbSyZSymwaZei5FOK9d6MoSFRFUkWMq2sfp-LqhZM2FROBW1BXIKIGSzFjiCbRBeCB5lpgKQogkbTwx9wHsXJc1yRkdEzl9YWH8hBa16r4rO9FjHig0NvQug8LKXI9XIQxBhnk2CArs152lKJyGMXIdEwZiwRt3lGtiQLOLUM6iAtEH0IXevRL6v0-rsZEV1lYK4BYgqhj+S6veQ8mVCNLTg8tcROjFh9TY2tZErA6xUG8UhGTfR5tdaHSWkq6YesgQ6aICoYh-jHDy54lhIhxHosWaZGgCxzs7RZA+a5oqQFjREN2-SgIjEUGgkaco7j-loqkMcXwHBAA */
@@ -19,6 +19,7 @@ export const durakMachine =
       discardPile: [],
       currentPlayer: "human",
       winner: null,
+      currentAttack: null,
     },
     initial: "idle",
     states: {
@@ -296,20 +297,37 @@ export const durakMachine =
         states: {
           idle: {},
           defending: {
-            entry: assign((context, event) => {
-              const newContext = defendHumanAttack(context, event);
-              return newContext;
-            }),
-            always: [
-              {
-                cond: (ctx) => ctx.defendStatus === true,
-                target: "#Durak.humanTurn.attack",
+            initial: "waiting",
+            states: {
+              waiting: {
+                entry: assign({
+                  currentAttack: (context, event) => {
+                    const { card } = event;
+                    const currentAttack = card;
+                    return currentAttack;
+                  },
+                }),
+                after: {
+                  500: "ready",
+                },
               },
-              {
-                target:
-                  "#Durak.humanTurn.finishAttackAfterComputerCannotDefend",
+              ready: {
+                entry: assign((context, event) => {
+                  const newContext = defendHumanAttack(context, event);
+                  return newContext;
+                }),
+                always: [
+                  {
+                    cond: (ctx) => ctx.defendStatus === true,
+                    target: "#Durak.humanTurn.attack",
+                  },
+                  {
+                    target:
+                      "#Durak.humanTurn.finishAttackAfterComputerCannotDefend",
+                  },
+                ],
               },
-            ],
+            },
           },
           readyToAttack: {
             always: [
@@ -321,13 +339,23 @@ export const durakMachine =
             ],
           },
           endComputerAttack: {
-            always: [
-              {
-                cond: checkForWin,
-                target: "#Durak.declareWinner",
+            initial: "waiting",
+            states: {
+              waiting: {
+                after: {
+                  1000: "ready",
+                },
               },
-              { target: "computerCleanUp" },
-            ],
+              ready: {
+                always: [
+                  {
+                    cond: checkForWin,
+                    target: "#Durak.declareWinner",
+                  },
+                  { target: "#Durak.computerTurn.computerCleanUp" },
+                ],
+              },
+            },
           },
           computerCleanUp: {
             // move cards to discard pile
@@ -346,8 +374,7 @@ export const durakMachine =
               // console.log("cleanup", discards);
               return {
                 ...context,
-                currentInstruction:
-                  "just cleaned up, computer was done attacking",
+                currentInstruction: "Your turn to attack.",
                 playingField: [],
                 discardPile: [...context.discardPile, discards],
               };
@@ -355,19 +382,35 @@ export const durakMachine =
             always: "#Durak.resetHands",
           },
           attacking: {
-            entry: assign((context, event) => {
-              const newContext = attackHuman(context, event);
-              return newContext;
-            }),
-            always: { target: "#Durak.humanTurn.defending" },
+            initial: "waiting",
+            states: {
+              waiting: {
+                after: {
+                  500: "ready",
+                },
+              },
+              ready: {
+                entry: assign((context, event) => {
+                  const newContext = attackHuman(context, event);
+                  return newContext;
+                }),
+                always: { target: "#Durak.humanTurn.defending" },
+              },
+            },
           },
           computerFinishAttackAfterHumanTakes: {
-            // try to throw in cards
-            entry: assign(computerTryThrowingInCards),
-            always: {
-              target: "#Durak.humanTurn.humanTakesCards",
+            initial: "waiting",
+            states: {
+              waiting: {
+                entry: assign(computerTryThrowingInCards),
+                after: {
+                  500: "ready",
+                },
+              },
+              ready: {
+                always: { target: "#Durak.humanTurn.humanTakesCards" },
+              },
             },
-            // then humanTakesCards
           },
           finishAttack: {},
           Defeated: {
@@ -455,7 +498,8 @@ function checkForInternalValidCard(defendingCard, card, trumpSuit) {
 }
 
 function defendHumanAttack(context, event) {
-  const { card } = event;
+  // const { card } = event;
+  const card = context.currentAttack;
   const [playerHand, computerHand] = context.hands;
 
   let defendStatus;
@@ -526,6 +570,9 @@ function resetHands(context, _) {
       hand.push(card);
     }
   });
+
+  sortHand(hands[0], context.trumpCard);
+  sortHand(hands[1], context.trumpCard);
 
   return {
     ...context,

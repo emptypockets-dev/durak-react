@@ -15,9 +15,14 @@ export default function PlayerHand() {
   // }, [playingField]);
 
   return (
-    <div>
+    <motion.div layout>
       {playingField.length > 0 && (
-        <motion.ul drag className="flex" layout transition={{ duration: 0.3 }}>
+        <motion.ul
+          drag
+          className="flex"
+          layout="position"
+          transition={{ duration: 0.3 }}
+        >
           {playingField.map((cardPair, index) => (
             <div key={index} className="flex flex-col">
               <motion.div className="rotate-2">
@@ -32,6 +37,6 @@ export default function PlayerHand() {
           ))}
         </motion.ul>
       )}
-    </div>
+    </motion.div>
   );
 }

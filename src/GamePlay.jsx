@@ -12,14 +12,9 @@ import { motion } from "framer-motion";
 import { LayoutGroup } from "framer-motion";
 
 export default function GamePlay() {
-  const [state, send] = DurakMachineContext.useActor();
   const winner = DurakMachineContext.useSelector(
     (state) => state.context.winner
   );
-
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
 
   return (
     <Layout>
@@ -32,30 +27,28 @@ export default function GamePlay() {
       ) : (
         <>
           <StartMenu />
+          {/* <LayoutGroup> */}
+          <ComputerHand />
 
-          <div className="">
-            <ComputerHand />
-          </div>
           {/* middle */}
-          <div className="flex justify-between h-48">
-            <div className="w-full">
+          {/* <LayoutGroup> */}
+          <motion.div className="flex justify-between h-48" layout>
+            {/* <LayoutGroup> */}
+            <motion.div className="w-full">
               <PlayingField />
-            </div>
+            </motion.div>
             {/* right side */}
-            <div className=" text-white w-28 h-40 flex flex-col justify-between -translate-y-16 -translate-x-6">
-              <div>
-                <Deck />
-              </div>
-              <div className="">
-                <DiscardPile />
-              </div>
-            </div>
-          </div>
-          <div className="">
-            <GameInstruction />
-            <PlayerHand />
-          </div>
+            <motion.div className=" text-white w-28 h-40 flex flex-col justify-between -translate-y-16 -translate-x-6">
+              <Deck />
+              <DiscardPile />
+            </motion.div>
+            {/* </LayoutGroup> */}
+          </motion.div>
+          {/* </LayoutGroup> */}
 
+          <GameInstruction />
+          <PlayerHand />
+          {/* </LayoutGroup> */}
           {/* <div className="bg-orange-200 w-fit">hat</div> */}
           {/* <div className="bg-orange-100 w-fit">settings</div> */}
         </>

@@ -1,6 +1,7 @@
 import { DurakMachineContext } from "../providers/MachineContextProvider";
 import PlayingCard from "./PlayingCard";
 import PlayingCardBack from "./PlayingCardBack";
+import { motion } from "framer-motion";
 
 export default function ComputerHand() {
   const [state, send] = DurakMachineContext.useActor();
@@ -8,24 +9,19 @@ export default function ComputerHand() {
   const computerHand = hands[1];
 
   return (
-    <div className="h-48">
+    <motion.div className="h-48">
       {hands.length > 0 && (
-        <ul className="flex mb-7">
+        <motion.ul className="flex mb-7">
           {computerHand.map((card, index) => (
-            <li
-              style={{
-                transform: `translateX(calc(-40px * ${index})) rotate(-1deg)`,
-              }}
-              key={`${card.suit} - ${card.value}`}
-            >
+            <motion.li layoutId={card.id} key={`${card.suit} - ${card.value}`}>
               <PlayingCardBack />
-              {/* <div className="-mt-24">
+              {/* <div className="" layoutId={card.id}>
                 <PlayingCard card={card} />
               </div> */}
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       )}
-    </div>
+    </motion.div>
   );
 }
