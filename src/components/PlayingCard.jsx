@@ -9,22 +9,22 @@ const PlayingCard = ({ card, handleClick }) => {
 
   switch (card.suit) {
     case "hearts":
-      textClass = "text-red-500";
+      textClass = "text-red-500 font-semibold";
       icon = <GiHearts />;
       iconColor = "red";
       break;
     case "diamonds":
-      textClass = "text-red-500";
+      textClass = "text-red-500 font-semibold";
       icon = <GiDiamonds />;
       iconColor = "red";
       break;
     case "spades":
-      textClass = "text-black";
+      textClass = "text-black font-semibold";
       icon = <GiSpades />;
       iconColor = "black";
       break;
     case "clubs":
-      textClass = "text-black";
+      textClass = "text-black font-semibold";
       icon = <GiClubs />;
       iconColor = "black";
       break;
@@ -38,15 +38,15 @@ const PlayingCard = ({ card, handleClick }) => {
       onClick={() => handleClick(card)}
       className="relative mr-1 shadow-lg bg-white border border-gray-400 rounded-lg p-4 flex items-center justify-center h-32 w-24"
     >
-      <div className="absolute top-0 left-2 flex flex-col items-center">
-        <div className={clsx(textClass, "text-xl")}>{card.displayValue}</div>
+      <div className="absolute top-0.5 left-2 flex flex-col items-center">
+        <div className={clsx(textClass, "text-lg")}>{card.displayValue}</div>
         <div className="" style={{ color: iconColor }}>
           {icon}
         </div>
       </div>
 
       <div className="absolute bottom-1 right-2 flex flex-col items-center">
-        <div className={clsx(textClass, "text-xl")}>{card.displayValue}</div>
+        <div className={clsx(textClass, "text-lg")}>{card.displayValue}</div>
         <div className="" style={{ color: iconColor }}>
           {icon}
         </div>
