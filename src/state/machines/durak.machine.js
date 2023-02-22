@@ -254,7 +254,6 @@ export const durakMachine =
               // console.log("cleanup", discards);
               return {
                 ...context,
-                currentInstruction: "just cleaned up, human was done attacking",
                 playingField: [],
                 discardPile: [...context.discardPile, discards],
               };
@@ -279,7 +278,6 @@ export const durakMachine =
               console.log("computer takes cards", context.hands[1]);
               return {
                 ...context,
-                currentInstruction: "just cleaned up, human was done attacking",
                 playingField: [],
                 hands: [
                   [...context.hands[0]],
