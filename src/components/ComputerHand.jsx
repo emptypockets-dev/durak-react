@@ -14,7 +14,9 @@ export default function ComputerHand() {
         <motion.ul className="flex mb-7">
           {computerHand.map((card, index) => (
             <motion.li layoutId={card.id} key={`${card.suit} - ${card.value}`}>
-              <PlayingCardBack />
+              <div style={{ position: "relative", left: `${-50 * index}px` }}>
+                <PlayingCardBack />
+              </div>
               {/* <div className="" layoutId={card.id}>
                 <PlayingCard card={card} />
               </div> */}

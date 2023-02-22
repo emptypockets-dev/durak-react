@@ -34,7 +34,6 @@ const PlayingCard = ({ card, handleClick }) => {
 
   return (
     <motion.div
-      layoutId={card.id}
       onClick={() => handleClick(card)}
       className="relative mr-1 shadow-lg bg-white border border-gray-400 rounded-lg p-4 flex items-center justify-center h-32 w-24"
     >

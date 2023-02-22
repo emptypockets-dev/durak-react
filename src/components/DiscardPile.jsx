@@ -9,38 +9,27 @@ export default function DiscardPile() {
     (state) => state.context.discardPile
   );
 
-  function randomNum() {
-    return Math.floor(Math.random() * 20) - 5;
-  }
-
   useEffect(() => {
     // console.log({ discardPile });
   }, [discardPile]);
 
   return (
-    <AnimatePresence>
+    <div style={{ position: "absolute", top: "240px", right: "150px" }}>
       {discardPile.length > 0 && (
-        <ul className="flex relative -rotate-6">
+        <ul>
           {discardPile.map((card, index) => {
-            const skewAmount = Math.floor(Math.random() * 2) + 1; // generate a random skew amount between 1 and 3 degrees
-            const isNegative = Math.random() < 0.5; // randomly choose whether skew should be negative
-            const skewValue = isNegative ? -skewAmount : skewAmount; // use negative skew value if isNegative is
-            console.log("discard pile", card);
             return (
-              <li key={index} layout="position">
-                <div
-                  style={{
-                    transform: `rotate(${skewValue * randomNum()}deg)`,
-                  }}
-                  className="absolute top-0 left-0 w-full h-full bg-red-500"
-                >
-                  <PlayingCardBack />
-                </div>
-              </li>
+              <motion.li
+                key={index}
+                layoutId={card.id}
+                style={{ position: "absolute", top: "0" }}
+              >
+                <PlayingCardBack />
+              </motion.li>
             );
           })}
         </ul>
       )}
-    </AnimatePresence>
+    </div>
   );
 }

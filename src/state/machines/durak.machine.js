@@ -24,8 +24,8 @@ export const durakMachine =
     initial: "idle",
     states: {
       idle: {
-        always: {
-          target: "starting",
+        on: {
+          START_GAME: "starting",
         },
       },
       starting: {
@@ -341,7 +341,7 @@ export const durakMachine =
             states: {
               waiting: {
                 after: {
-                  1000: "ready",
+                  500: "ready",
                 },
               },
               ready: {

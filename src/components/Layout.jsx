@@ -1,5 +1,6 @@
 import bg from "../assets/wood-bg.jpg";
 import { DurakMachineContext } from "../providers/MachineContextProvider";
+import { motion } from "framer-motion";
 
 export default function Layout({ children }) {
   const [state, send] = DurakMachineContext.useActor();
@@ -10,12 +11,12 @@ export default function Layout({ children }) {
   }
 
   return (
-    <div
+    <motion.div
       onDoubleClick={handleDoubleClick}
-      className="p-5 select-none h-screen"
+      className="p-5 select-none h-screen bg-cover overflow-hidden"
       style={{ backgroundImage: `url(${bg})` }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

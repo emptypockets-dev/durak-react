@@ -8,7 +8,7 @@ import GameInstruction from "./components/GameInstruction";
 import PlayingField from "./components/PlayingField";
 import DiscardPile from "./components/DiscardPile";
 import { DurakMachineContext } from "./providers/MachineContextProvider";
-import { motion } from "framer-motion";
+import { LayoutGroupContext, motion } from "framer-motion";
 import { LayoutGroup } from "framer-motion";
 
 export default function GamePlay() {
@@ -27,24 +27,13 @@ export default function GamePlay() {
       ) : (
         <>
           <StartMenu />
-          {/* <LayoutGroup> */}
+
           <ComputerHand />
 
-          {/* middle */}
-          {/* <LayoutGroup> */}
-          <motion.div className="flex justify-between h-48" layout>
-            {/* <LayoutGroup> */}
-            <motion.div className="w-full">
-              <PlayingField />
-            </motion.div>
-            {/* right side */}
-            <motion.div className=" text-white w-28 h-40 flex flex-col justify-between -translate-y-16 -translate-x-6">
-              <Deck />
-              <DiscardPile />
-            </motion.div>
-            {/* </LayoutGroup> */}
-          </motion.div>
-          {/* </LayoutGroup> */}
+          <PlayingField />
+
+          <DiscardPile />
+          <Deck />
 
           <GameInstruction />
           <PlayerHand />

@@ -9,6 +9,10 @@ export default function PlayerHand() {
     (state) => state.context.playingField
   );
 
+  function randomNum() {
+    return Math.floor(Math.random() * 20) - 5;
+  }
+
   // useEffect(() => {
   //   console.log(playingField);
   //   console.log(state);
@@ -16,20 +20,19 @@ export default function PlayerHand() {
 
   return (
     <AnimatePresence>
-      <motion.div layout>
+      <motion.div style={{ width: "80%", height: "200px" }}>
         {playingField.length > 0 && (
-          <motion.ul
-            className="flex"
-            layout="position"
-            transition={{ duration: 0.3 }}
-          >
+          <motion.ul transition={{ duration: 0.3 }} style={{ display: "flex" }}>
             {playingField.map((cardPair, index) => (
-              <div key={index} className="flex flex-col">
-                <motion.div className="rotate-2">
+              <div key={index} style={{ position: "relative" }}>
+                <motion.div layoutId={cardPair.attack.id}>
                   <PlayingCard card={cardPair.attack} />
                 </motion.div>
                 {cardPair.defend && (
-                  <motion.div className="-translate-y-24 rotate-3">
+                  <motion.div
+                    style={{ position: "absolute", top: "40px" }}
+                    layoutId={cardPair.defend.id}
+                  >
                     <PlayingCard card={cardPair.defend} />
                   </motion.div>
                 )}
