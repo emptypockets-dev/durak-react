@@ -49,7 +49,7 @@ export const durakMachine =
           context.deck.push(topCard);
           return {
             ...context,
-            currentInstruction: "Lowest trump card goes first...",
+            currentInstruction: "Player with lowest trump card goes first...",
             trumpCard: topCard,
           };
         }),
