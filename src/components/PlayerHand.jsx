@@ -7,6 +7,9 @@ import { LayoutGroup } from "framer-motion";
 export default function PlayerHand() {
   const [state, send] = DurakMachineContext.useActor();
   const hands = DurakMachineContext.useSelector((state) => state.context.hands);
+  const playingField = DurakMachineContext.useSelector(
+    (state) => state.context.playingField
+  );
   const playerHand = hands[0];
 
   function handleClick(card) {
@@ -22,6 +25,10 @@ export default function PlayerHand() {
     console.log("cannot defend clicked");
     send({ type: "CANNOT_DEFEND" });
   }
+
+  // useEffect(() => {
+  //   console.log("playerHand", );
+  // }, [hands]);
 
   return (
     <div>
@@ -44,19 +51,22 @@ export default function PlayerHand() {
       )}
       {state.value != "idle" && (
         <div className="flex">
-          <button
-            onClick={cannotDefend}
-            className="text-sm text-white font-semibold mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black mr-4"
-          >
-            TAKE CARDS
-          </button>
-
-          <button
-            onClick={handleDone}
-            className="text-sm text-white font-semibold mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black"
-          >
-            DONE
-          </button>
+          {state.matches("humanTurn.attacking") && playingField.length > 0 && (
+            <button
+              onClick={handleDone}
+              className="text-sm text-white font-semibold mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black"
+            >
+              DONE
+            </button>
+          )}
+          {state.matches("humanTurn.defending") && (
+            <button
+              onClick={cannotDefend}
+              className="text-sm text-white font-semibold mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black mr-4"
+            >
+              TAKE CARDS
+            </button>
+          )}
         </div>
       )}
     </div>

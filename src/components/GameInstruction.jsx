@@ -9,7 +9,7 @@ export default function GameInstruction() {
   );
 
   useEffect(() => {
-    // console.log(state);
+    console.log(state);
     // console.log({ currentInstruction });
   }, [state]);
 
