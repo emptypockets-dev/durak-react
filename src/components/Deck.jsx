@@ -3,6 +3,7 @@ import PlayingCardBack from "./PlayingCardBack";
 import PlayingCard from "./PlayingCard";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { GiHearts, GiDiamonds, GiSpades, GiClubs } from "react-icons/gi";
 
 export default function Deck() {
   const deck = DurakMachineContext.useSelector((state) => state.context.deck);
@@ -12,6 +13,32 @@ export default function Deck() {
   const trumpCard = DurakMachineContext.useSelector(
     (state) => state.context.trumpCard
   );
+
+  function setTrumpIcon(trumpCard) {
+    let icon;
+    let iconColor;
+    switch (trumpCard.suit) {
+      case "hearts":
+        icon = <GiHearts />;
+
+        break;
+      case "diamonds":
+        icon = <GiDiamonds />;
+
+        break;
+      case "spades":
+        icon = <GiSpades />;
+
+        break;
+      case "clubs":
+        icon = <GiClubs />;
+
+        break;
+      default:
+        break;
+    }
+    return <div className="text-yellow-600">{icon}</div>;
+  }
 
   // const [deckLength, setDeckLength] = useState(() => deck.length);
 
@@ -44,9 +71,11 @@ export default function Deck() {
           );
         })}
       </ul>
-      {/* <span className="absolute -top-2 -right-2 block bg-black/60 text-white rounded-full text-sm p-1.5">
-        {deckLength}
-      </span> */}
+      {deck.length === 0 && (
+        <span className="text-white text-2xl absolute top-16 left-11 z-1">
+          {setTrumpIcon(trumpCard)}
+        </span>
+      )}
     </div>
   );
 }
