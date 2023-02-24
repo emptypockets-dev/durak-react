@@ -33,32 +33,42 @@ export default function PlayerHand() {
   return (
     <div>
       {hands.length > 0 && (
-        <ul className="flex w-2/3">
+        <motion.ul animate={{ display: "flex" }}>
           {playerHand.map((card, index) => (
             <motion.li
+              layout="position"
               layoutId={card.id}
               key={card.id}
               drag
               dragSnapToOrigin
               dragElastic={0.2}
               whileDrag={{ scale: 1.2, zIndex: 9999 }}
-              style={{ position: "relative", left: `${-50 * index}px` }}
+              transition={{
+                type: "spring",
+                stiffness: 100,
+                layout: {},
+              }}
+              animate={{
+                x: -30 * index,
+              }}
             >
               <PlayingCard card={card} handleClick={handleClick} />
             </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       )}
       {state.value != "idle" && (
-        <div className="flex">
-          {state.matches("humanTurn.attacking") && playingField.length > 0 && (
-            <button
-              onClick={handleDone}
-              className="text-sm text-white font-semibold mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black"
-            >
-              DONE
-            </button>
-          )}
+        <div style={{ display: "flex" }}>
+          {state.matches("humanTurn.attacking") ||
+            (state.matches("humanTurn.computerDefeated") &&
+              playingField.length > 0 && (
+                <button
+                  onClick={handleDone}
+                  className="text-sm text-white font-semibold mt-4 border border-white p-1 px-3 hover:bg-white hover:text-black"
+                >
+                  DONE
+                </button>
+              ))}
           {state.matches("humanTurn.defending") && (
             <button
               onClick={cannotDefend}

@@ -9,14 +9,23 @@ export default function ComputerHand() {
   const computerHand = hands[1];
 
   return (
-    <motion.div className="h-48">
+    <div>
       {hands.length > 0 && (
-        <motion.ul className="flex mb-7">
+        <motion.ul style={{ display: "flex", width: "100%" }}>
           {computerHand.map((card, index) => (
             <motion.li layoutId={card.id} key={`${card.suit} - ${card.value}`}>
-              <div style={{ position: "relative", left: `${-50 * index}px` }}>
+              <motion.div
+                layout="position"
+                animate={{ x: -40 * index, position: "relative" }}
+                transition={{
+                  type: "spring",
+                  stiffness: 50,
+                  layout: {},
+                }}
+              >
                 <PlayingCardBack />
-              </div>
+              </motion.div>
+              {/* left: `${-50 * index}px` */}
               {/* <div className="" layoutId={card.id}>
                 <PlayingCard card={card} />
               </div> */}
@@ -24,6 +33,6 @@ export default function ComputerHand() {
           ))}
         </motion.ul>
       )}
-    </motion.div>
+    </div>
   );
 }

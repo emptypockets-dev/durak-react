@@ -19,28 +19,35 @@ export default function PlayerHand() {
   // }, [playingField]);
 
   return (
-    <AnimatePresence>
-      <motion.div style={{ width: "80%", height: "220px" }}>
-        {playingField.length > 0 && (
-          <motion.ul transition={{ duration: 0.3 }} style={{ display: "flex" }}>
-            {playingField.map((cardPair, index) => (
-              <div key={index} style={{ position: "relative" }}>
-                <motion.div layoutId={cardPair.attack.id}>
-                  <PlayingCard card={cardPair.attack} />
+    // <AnimatePresence>
+    <motion.div
+      style={{
+        width: "50%",
+        height: "300px",
+        display: "flex",
+      }}
+    >
+      {playingField.length > 0 && (
+        <motion.ul style={{ display: "flex", transform: "translateY(50px)" }}>
+          {playingField.map((cardPair, index) => (
+            <div key={index} style={{ position: "relative" }}>
+              <motion.div layout layoutId={cardPair.attack.id}>
+                <PlayingCard card={cardPair.attack} />
+              </motion.div>
+              {cardPair.defend && (
+                <motion.div
+                  layout="position"
+                  animate={{ position: "absolute", top: "50px" }}
+                  layoutId={cardPair.defend.id}
+                >
+                  <PlayingCard card={cardPair.defend} />
                 </motion.div>
-                {cardPair.defend && (
-                  <motion.div
-                    style={{ position: "absolute", top: "40px" }}
-                    layoutId={cardPair.defend.id}
-                  >
-                    <PlayingCard card={cardPair.defend} />
-                  </motion.div>
-                )}
-              </div>
-            ))}
-          </motion.ul>
-        )}
-      </motion.div>
-    </AnimatePresence>
+              )}
+            </div>
+          ))}
+        </motion.ul>
+      )}
+    </motion.div>
+    // </AnimatePresence>
   );
 }

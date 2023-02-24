@@ -63,18 +63,20 @@ export default function Deck() {
       <ul>
         {deck.map((card, index) => {
           return (
-            <li key={index} style={{ position: "absolute", top: "0" }}>
-              <motion.div>
-                <PlayingCardBack />
-              </motion.div>
-            </li>
+            <motion.li
+              layout="position"
+              key={index}
+              style={{ position: "absolute", top: "0" }}
+              layoutId={card.id}
+            >
+              <PlayingCardBack />
+            </motion.li>
           );
         })}
       </ul>
       {deck.length === 0 && (
-        <span className="text-white text-2xl absolute top-16 left-11 z-1">
-          {setTrumpIcon(trumpCard)}
-        </span>
+        <span>{setTrumpIcon(trumpCard)}</span>
+        // <span className="text-white text-2xl absolute top-16 left-11 z-1"></span>
       )}
     </div>
   );

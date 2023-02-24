@@ -135,14 +135,24 @@ export const durakMachine =
         ],
       },
       resetHands: {
-        entry: assign(resetHands),
-        always: [
-          {
-            cond: checkForWin,
-            target: "declareWinner",
+        initial: "wait",
+        states: {
+          wait: {
+            after: {
+              50: "ready",
+            },
           },
-          { target: "selectCurrentPlayer" },
-        ],
+          ready: {
+            entry: assign(resetHands),
+            always: [
+              {
+                cond: checkForWin,
+                target: "#Durak.declareWinner",
+              },
+              { target: "#Durak.selectCurrentPlayer" },
+            ],
+          },
+        },
       },
       declareWinner: {
         entry: assign(assignWinner),
@@ -235,27 +245,37 @@ export const durakMachine =
             },
           },
           endRound: {
-            // move cards to discard pile
-            entry: assign((context, event) => {
-              const playingFieldCards = [...context.playingField];
-              // console.log("cleanup", playingFieldCards);
-              const discards = playingFieldCards.reduce((result, item) => {
-                if (item.attack) {
-                  result.push(item.attack);
-                }
-                if (item.defend) {
-                  result.push(item.defend);
-                }
-                return result;
-              }, []);
-              // console.log("cleanup", discards);
-              return {
-                ...context,
-                playingField: [],
-                discardPile: [...context.discardPile, discards],
-              };
-            }),
-            always: "#Durak.resetHands",
+            initial: "waiting",
+            states: {
+              waiting: {
+                entry: assign((context, event) => {
+                  const playingFieldCards = [...context.playingField];
+                  // console.log("cleanup", playingFieldCards);
+                  const discards = playingFieldCards.reduce((result, item) => {
+                    if (item.attack) {
+                      console.log("the attack item is", item.attack);
+                      result.push(item.attack);
+                    }
+                    if (item.defend) {
+                      result.push(item.defend);
+                    }
+                    return result;
+                  }, []);
+                  console.log("cleanup", discards);
+                  return {
+                    ...context,
+                    playingField: [],
+                    discardPile: [...context.discardPile, ...discards],
+                  };
+                }),
+                after: {
+                  0: "ready",
+                },
+              },
+              ready: {
+                always: "#Durak.resetHands",
+              },
+            },
           },
           wonRound: {
             // move cards to computer hand
@@ -404,28 +424,38 @@ export const durakMachine =
             },
           },
           endRound: {
+            initial: "waiting",
+            states: {
+              waiting: {
+                entry: assign((context, event) => {
+                  const playingFieldCards = [...context.playingField];
+                  // console.log("cleanup", playingFieldCards);
+                  const discards = playingFieldCards.reduce((result, item) => {
+                    if (item.attack) {
+                      result.push(item.attack);
+                    }
+                    if (item.defend) {
+                      result.push(item.defend);
+                    }
+                    return result;
+                  }, []);
+                  // console.log("cleanup", discards);
+                  return {
+                    ...context,
+                    currentInstruction: "Your turn to attack.",
+                    playingField: [],
+                    discardPile: [...context.discardPile, ...discards],
+                  };
+                }),
+                after: {
+                  500: "ready",
+                },
+              },
+              ready: {
+                always: "#Durak.resetHands",
+              },
+            },
             // move cards to discard pile
-            entry: assign((context, event) => {
-              const playingFieldCards = [...context.playingField];
-              // console.log("cleanup", playingFieldCards);
-              const discards = playingFieldCards.reduce((result, item) => {
-                if (item.attack) {
-                  result.push(item.attack);
-                }
-                if (item.defend) {
-                  result.push(item.defend);
-                }
-                return result;
-              }, []);
-              // console.log("cleanup", discards);
-              return {
-                ...context,
-                currentInstruction: "Your turn to attack.",
-                playingField: [],
-                discardPile: [...context.discardPile, discards],
-              };
-            }),
-            always: "#Durak.resetHands",
           },
           wonRound: {
             initial: "waiting",
