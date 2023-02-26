@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const PlayingCardBack = ({ width = "w-28", height = "h-40" }) => {
   return (
-    <div className={`${width} ${height} rounded-lg drop-shadow-md`}>
+    <div className={`${width} ${height} rounded-lg`}>
       <img
         src={playingCardBack}
         className="w-full pointer-events-none"

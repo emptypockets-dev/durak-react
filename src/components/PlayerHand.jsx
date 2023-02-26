@@ -30,7 +30,7 @@ export default function PlayerHand() {
   return (
     <div>
       {hands.length > 0 && (
-        <ul style={{ display: "flex", width: "100%" }}>
+        <ul style={{ display: "flex", width: "200px" }}>
           <AnimatePresence mode="popLayout">
             {playerHand.map((card, index) => (
               <motion.li
@@ -39,17 +39,14 @@ export default function PlayerHand() {
                 dragSnapToOrigin
                 dragElastic={0.2}
                 whileDrag={{ scale: 1.2 }}
-                dragPropagation={true}
                 key={card.id}
                 layoutId={card.id}
-                animate={{
-                  x: -40 * index,
-                }}
+                // animate={{
+                //   x: -40 * index,
+                // }}
                 transition={{
                   duration: 0.5,
-                  layout: {
-                    delay: 0.1 * index,
-                  },
+                  ease: "easeInOut",
                 }}
               >
                 <motion.div>

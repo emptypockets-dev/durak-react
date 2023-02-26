@@ -11,23 +11,19 @@ export default function ComputerHand() {
   return (
     <div>
       {hands.length > 0 && (
-        <motion.ul
-          style={{ display: "flex", width: "100%", perspective: "1000px" }}
-        >
+        <motion.ul style={{ display: "flex", width: "100%" }}>
           <AnimatePresence mode="popLayout">
             {computerHand.map((card, index) => (
               <motion.li
                 layout
                 layoutId={card.id}
                 key={card.id}
-                animate={{
-                  x: -40 * index,
-                }}
+                // animate={{
+                //   x: -40 * index,
+                // }}
                 transition={{
                   duration: 0.5,
-                  layout: {
-                    delay: 0.1,
-                  },
+                  ease: "easeInOut",
                 }}
               >
                 <PlayingCardBack />

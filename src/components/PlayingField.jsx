@@ -38,10 +38,10 @@ export default function PlayerHand() {
               key={index}
               style={{ position: "relative", perspective: "1000px" }}
             >
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="popLayout">
                 <motion.div
                   layout
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.5 }}
                   initial={{ scale: 1.35 }}
                   animate={{ scale: 1 }}
                   layoutId={cardPair.attack.id}
@@ -49,10 +49,10 @@ export default function PlayerHand() {
                   <PlayingCard card={cardPair.attack} />
                 </motion.div>
               </AnimatePresence>
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="popLayout">
                 {cardPair.defend && (
                   <motion.div
-                    transition={{ duration: 0.25 }}
+                    transition={{ duration: 0.5 }}
                     layout
                     initial={{ scale: 1.35 }}
                     animate={{ scale: 1 }}

@@ -46,7 +46,7 @@ export const durakMachine =
       shuffling: {
         entry: assign(createDeck),
         after: {
-          500: {
+          50: {
             target: "dealing",
           },
         },
@@ -282,7 +282,7 @@ export const durakMachine =
                   };
                 }),
                 after: {
-                  0: "ready",
+                  500: "ready",
                 },
               },
               ready: {
@@ -422,7 +422,7 @@ export const durakMachine =
             states: {
               waiting: {
                 after: {
-                  500: "ready",
+                  1000: "ready",
                 },
               },
               ready: {
@@ -461,7 +461,7 @@ export const durakMachine =
                   };
                 }),
                 after: {
-                  500: "ready",
+                  50: "ready",
                 },
               },
               ready: {

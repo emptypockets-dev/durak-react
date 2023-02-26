@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GiHearts, GiDiamonds, GiSpades, GiClubs } from "react-icons/gi";
 
 export default function Deck() {
+  const [state, send] = DurakMachineContext.useActor();
   const deck = DurakMachineContext.useSelector((state) => state.context.deck);
   const deckLength = DurakMachineContext.useSelector(
     (state) => state.context.deck.length
@@ -40,6 +41,12 @@ export default function Deck() {
     return <div className="text-yellow-600">{icon}</div>;
   }
 
+  function randomRotation() {
+    var randomNumber =
+      Math.round(Math.random() * 5) * Math.sign(Math.random() - 0.5);
+    return randomNumber;
+  }
+
   // const [deckLength, setDeckLength] = useState(() => deck.length);
 
   // useEffect(() => {
@@ -49,7 +56,7 @@ export default function Deck() {
   // const cardsStack = Array(deck.length).fill(null);
 
   return (
-    <motion.div style={{ position: "absolute", top: "50px", right: "150px" }}>
+    <motion.div style={{ position: "absolute", top: "175px", right: "175px" }}>
       {trumpCard?.suit && (
         <motion.div
           style={{
@@ -61,15 +68,16 @@ export default function Deck() {
         </motion.div>
       )}
       <motion.ul>
-        <AnimatePresence>
+        <AnimatePresence mode="popLayout">
           {deck.map((card, index) => {
             return (
               <motion.li
                 layout="position"
                 layoutId={card.id}
-                key={index}
+                key={card.id}
                 style={{
                   position: "absolute",
+                  boxShadow: "-2px 0px 10px rgba(0, 0, 0, 0.04)",
                 }}
               >
                 <PlayingCardBack />
@@ -79,8 +87,11 @@ export default function Deck() {
         </AnimatePresence>
       </motion.ul>
       {deck.length === 0 && (
-        <span>{setTrumpIcon(trumpCard)}</span>
-        // <span className="text-white text-2xl absolute top-16 left-11 z-1"></span>
+        <>
+          <span className="absolute translate-x-12 translate-y-20">
+            {setTrumpIcon(trumpCard)}
+          </span>
+        </>
       )}
     </motion.div>
   );

@@ -135,6 +135,7 @@ export function isValidCardSelection(context, event) {
 export function isValidCardSelectionForDefend(context, event) {
   console.log("checking for isValidCardSelection", event);
   const { card } = event;
+  const currentTrumpSuit = context.trumpCard.suit;
   const playingField = context.playingField;
 
   console.log("cardToCheck from is valid", card);
@@ -150,15 +151,17 @@ export function isValidCardSelectionForDefend(context, event) {
     }, []);
     console.log("cards from playing field after reduce", cardsFromPlayingField);
     /* check if cards in playing field match the value of the selected card */
-    const hasMatchingValue = cardsFromPlayingField.some((obj) => {
-      const sameSuit = obj.suit === card.suit;
-      const higherValue = obj.value < card.value;
-      return sameSuit && higherValue;
-    });
-    const isATrumpCard = card.suit === context.trumpCard.suit;
-    console.log("hasMatchingValue", hasMatchingValue);
-    console.log("isAtrumpCard", isATrumpCard);
-    return hasMatchingValue || isATrumpCard;
+    const lastCardFromPlayingField =
+      cardsFromPlayingField[cardsFromPlayingField.length - 1];
+
+    const sameSuit = lastCardFromPlayingField.suit === card.suit;
+    if (!sameSuit) {
+      const isTrump = card.suit === context.trumpCard.suit;
+      return isTrump;
+    } else {
+      const higherValue = lastCardFromPlayingField.value < card.value;
+      return higherValue;
+    }
   } else {
     return true;
   }
