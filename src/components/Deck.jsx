@@ -2,7 +2,7 @@ import { DurakMachineContext } from "../providers/MachineContextProvider";
 import PlayingCardBack from "./PlayingCardBack";
 import PlayingCard from "./PlayingCard";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { GiHearts, GiDiamonds, GiSpades, GiClubs } from "react-icons/gi";
 
 export default function Deck() {
@@ -49,35 +49,39 @@ export default function Deck() {
   // const cardsStack = Array(deck.length).fill(null);
 
   return (
-    <div style={{ position: "absolute", top: "50px", right: "50px" }}>
+    <motion.div style={{ position: "absolute", top: "50px", right: "150px" }}>
       {trumpCard?.suit && (
-        <div
+        <motion.div
           style={{
-            position: "asbsolute",
-            transform: "rotate(-90deg) translateY(-50px)",
+            position: "absolute",
+            transform: "rotate(-93deg) translateY(-45px) translateX(5px)",
           }}
         >
           {deck.length > 0 && <PlayingCard card={trumpCard} />}
-        </div>
+        </motion.div>
       )}
-      <ul>
-        {deck.map((card, index) => {
-          return (
-            <motion.li
-              layout="position"
-              key={index}
-              style={{ position: "absolute", top: "0" }}
-              layoutId={card.id}
-            >
-              <PlayingCardBack />
-            </motion.li>
-          );
-        })}
-      </ul>
+      <motion.ul>
+        <AnimatePresence>
+          {deck.map((card, index) => {
+            return (
+              <motion.li
+                layout="position"
+                layoutId={card.id}
+                key={index}
+                style={{
+                  position: "absolute",
+                }}
+              >
+                <PlayingCardBack />
+              </motion.li>
+            );
+          })}
+        </AnimatePresence>
+      </motion.ul>
       {deck.length === 0 && (
         <span>{setTrumpIcon(trumpCard)}</span>
         // <span className="text-white text-2xl absolute top-16 left-11 z-1"></span>
       )}
-    </div>
+    </motion.div>
   );
 }

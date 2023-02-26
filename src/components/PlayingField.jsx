@@ -19,7 +19,6 @@ export default function PlayerHand() {
   // }, [playingField]);
 
   return (
-    // <AnimatePresence>
     <motion.div
       style={{
         width: "50%",
@@ -28,26 +27,46 @@ export default function PlayerHand() {
       }}
     >
       {playingField.length > 0 && (
-        <motion.ul style={{ display: "flex", transform: "translateY(50px)" }}>
+        <ul
+          style={{
+            display: "flex",
+            transform: "translateY(50px)",
+          }}
+        >
           {playingField.map((cardPair, index) => (
-            <div key={index} style={{ position: "relative" }}>
-              <motion.div layout layoutId={cardPair.attack.id}>
-                <PlayingCard card={cardPair.attack} />
-              </motion.div>
-              {cardPair.defend && (
+            <motion.li
+              key={index}
+              style={{ position: "relative", perspective: "1000px" }}
+            >
+              <AnimatePresence mode="wait">
                 <motion.div
-                  layout="position"
-                  animate={{ position: "absolute", top: "50px" }}
-                  layoutId={cardPair.defend.id}
+                  layout
+                  transition={{ duration: 0.25 }}
+                  initial={{ scale: 1.35 }}
+                  animate={{ scale: 1 }}
+                  layoutId={cardPair.attack.id}
                 >
-                  <PlayingCard card={cardPair.defend} />
+                  <PlayingCard card={cardPair.attack} />
                 </motion.div>
-              )}
-            </div>
+              </AnimatePresence>
+              <AnimatePresence mode="wait">
+                {cardPair.defend && (
+                  <motion.div
+                    transition={{ duration: 0.25 }}
+                    layout
+                    initial={{ scale: 1.35 }}
+                    animate={{ scale: 1 }}
+                    style={{ position: "absolute", top: "50px" }}
+                    layoutId={cardPair.defend.id}
+                  >
+                    <PlayingCard card={cardPair.defend} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.li>
           ))}
-        </motion.ul>
+        </ul>
       )}
     </motion.div>
-    // </AnimatePresence>
   );
 }

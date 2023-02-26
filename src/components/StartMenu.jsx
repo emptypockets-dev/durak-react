@@ -8,7 +8,7 @@ export default function StartMenu() {
 
   useEffect(() => {
     console.log(state.value);
-    // handleStartGame();
+    handleStartGame();
   }, []);
 
   function handleStartGame() {

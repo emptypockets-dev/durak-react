@@ -27,14 +27,14 @@ export default function GamePlay() {
       ) : (
         <>
           <StartMenu />
-          <LayoutGroup>
-            <ComputerHand />
-            <PlayingField />
-            <DiscardPile />
-            <Deck />
-            <GameInstruction />
-            <PlayerHand />
-          </LayoutGroup>
+
+          <ComputerHand />
+          <PlayingField />
+          <DiscardPile />
+          <Deck />
+          <GameInstruction />
+          <PlayerHand />
+
           {/* </LayoutGroup> */}
           {/* <div className="bg-orange-200 w-fit">hat</div> */}
           {/* <div className="bg-orange-100 w-fit">settings</div> */}

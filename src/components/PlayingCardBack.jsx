@@ -1,4 +1,5 @@
 import playingCardBack from "../assets/playing-card-back.png";
+import { motion } from "framer-motion";
 
 const PlayingCardBack = ({ width = "w-28", height = "h-40" }) => {
   return (

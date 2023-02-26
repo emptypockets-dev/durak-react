@@ -1,5 +1,6 @@
 import { createMachine, assign } from "xstate";
 import {
+  createDeck,
   dealCards,
   isValidCardSelection,
   isValidCardSelectionForDefend,
@@ -39,20 +40,31 @@ export const durakMachine =
     states: {
       idle: {
         on: {
-          START_GAME: "starting",
+          START_GAME: "shuffling",
         },
       },
-      starting: {
+      shuffling: {
+        entry: assign(createDeck),
         after: {
-          50: {
+          500: {
             target: "dealing",
           },
         },
       },
       dealing: {
-        entry: assign(dealCards),
-        always: {
-          target: "setTrumpCard",
+        initial: "starting",
+        states: {
+          starting: {
+            entry: assign(dealCards),
+            always: {
+              target: "done",
+            },
+          },
+          done: {
+            always: {
+              target: "#Durak.setTrumpCard",
+            },
+          },
         },
       },
       setTrumpCard: {
@@ -79,7 +91,8 @@ export const durakMachine =
           );
           return {
             ...context,
-            currentPlayer: playerWithLowestTrump,
+            // currentPlayer: playerWithLowestTrump,
+            currentPlayer: "human",
           };
         }),
         always: {

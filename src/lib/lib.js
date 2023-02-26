@@ -15,16 +15,16 @@ const mapValueToDisplay = (value) => {
   }
 };
 
-const createDeck = () => {
+export const createDeck = (context, event) => {
   let suits = ["hearts", "diamonds", "spades", "clubs"];
   // suits = ["hearts", "diamonds", "spades", "clubs"];
   let values = [6, 7, 8, 9, 10, 11, 12, 13, 14];
   // values = [2, 3, 4, 5];
 
-  let deck = [];
+  let unshuffledDeck = [];
   for (let i = 0; i < suits.length; i++) {
     for (let j = 0; j < values.length; j++) {
-      deck.push({
+      unshuffledDeck.push({
         suit: suits[i],
         value: values[j],
         displayValue: mapValueToDisplay(values[j]),
@@ -32,23 +32,26 @@ const createDeck = () => {
       });
     }
   }
-  return deck;
+  const deck = shuffle(unshuffledDeck); // shuffle the deck
+  const updatedContext = {
+    ...context,
+    deck,
+  };
+
+  return updatedContext;
 };
 
 export const dealCards = (context, event) => {
-  const unshuffledDeck = createDeck(); // create a deck of cards
-  const deck = shuffle(unshuffledDeck); // shuffle the deck
   const { numPlayers, numCardsPerHand } = context.gameConfig; // get the number of players and cards per hand from the context
-
   const hands = []; // initialize an array to hold the hands of each player
 
   for (let i = 0; i < numPlayers; i++) {
     // deal the appropriate number of cards to each player
-    const hand = deck.splice(0, numCardsPerHand);
+    const hand = context.deck.splice(0, numCardsPerHand);
     hands.push(hand);
   }
 
-  const trumpCard = deck[0]; // assign the top card on the deck as the trump card
+  const trumpCard = context.deck[0]; // assign the top card on the deck as the trump card
   hands.forEach((hand) => {
     // sort the cards in each hand based on their value and trump status
     hand.sort((a, b) => {
@@ -74,7 +77,6 @@ export const dealCards = (context, event) => {
 
   const updatedContext = {
     ...context,
-    deck,
     hands,
   };
 

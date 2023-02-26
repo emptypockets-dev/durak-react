@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { DurakMachineContext } from "../providers/MachineContextProvider";
 import PlayingCard from "./PlayingCard";
-import { motion, useTransform } from "framer-motion";
+import { motion, useTransform, AnimatePresence } from "framer-motion";
 import { LayoutGroup } from "framer-motion";
 
 export default function PlayerHand() {
@@ -10,6 +10,7 @@ export default function PlayerHand() {
   const playingField = DurakMachineContext.useSelector(
     (state) => state.context.playingField
   );
+
   const playerHand = hands[0];
 
   function handleClick(card) {
@@ -26,36 +27,42 @@ export default function PlayerHand() {
     send({ type: "CANNOT_DEFEND" });
   }
 
-  // useEffect(() => {
-  //   console.log("playerHand", );
-  // }, [hands]);
-
   return (
     <div>
       {hands.length > 0 && (
-        <motion.ul animate={{ display: "flex" }}>
-          {playerHand.map((card, index) => (
-            <motion.li
-              layout="position"
-              layoutId={card.id}
-              key={card.id}
-              drag
-              dragSnapToOrigin
-              dragElastic={0.2}
-              whileDrag={{ scale: 1.2, zIndex: 9999 }}
-              transition={{
-                type: "spring",
-                stiffness: 100,
-                layout: {},
-              }}
-              animate={{
-                x: -30 * index,
-              }}
-            >
-              <PlayingCard card={card} handleClick={handleClick} />
-            </motion.li>
-          ))}
-        </motion.ul>
+        <ul style={{ display: "flex", width: "100%" }}>
+          <AnimatePresence mode="popLayout">
+            {playerHand.map((card, index) => (
+              <motion.li
+                layout="position"
+                drag
+                dragSnapToOrigin
+                dragElastic={0.2}
+                whileDrag={{ scale: 1.2 }}
+                dragPropagation={true}
+                key={card.id}
+                layoutId={card.id}
+                animate={{
+                  x: -40 * index,
+                }}
+                transition={{
+                  duration: 0.5,
+                  layout: {
+                    delay: 0.1 * index,
+                  },
+                }}
+              >
+                <motion.div>
+                  <PlayingCard
+                    card={card}
+                    handleClick={handleClick}
+                    isFlipped={false}
+                  />
+                </motion.div>
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </ul>
       )}
       {state.value != "idle" && (
         <div style={{ display: "flex" }}>
