@@ -30,7 +30,7 @@ export const durakMachine =
       trumpCard: {},
       playingField: [],
       defendStatus: false,
-      currentInstruction: "",
+      currentInstruction: "POURING DRINKS...",
       discardPile: [],
       currentPlayer: "human",
       winner: null,
@@ -56,8 +56,10 @@ export const durakMachine =
         states: {
           starting: {
             entry: assign(dealCards),
-            always: {
-              target: "done",
+            after: {
+              1000: {
+                target: "done",
+              },
             },
           },
           done: {
@@ -91,8 +93,8 @@ export const durakMachine =
           );
           return {
             ...context,
-            // currentPlayer: playerWithLowestTrump,
-            currentPlayer: "human",
+            currentPlayer: playerWithLowestTrump,
+            // currentPlayer: "human",
           };
         }),
         always: {
@@ -152,7 +154,7 @@ export const durakMachine =
         states: {
           wait: {
             after: {
-              50: "ready",
+              0: "ready",
             },
           },
           ready: {
@@ -371,7 +373,7 @@ export const durakMachine =
                   },
                 }),
                 after: {
-                  500: "ready",
+                  1000: "ready",
                 },
               },
               ready: {

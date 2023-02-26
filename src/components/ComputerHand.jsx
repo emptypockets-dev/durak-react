@@ -1,7 +1,7 @@
 import { DurakMachineContext } from "../providers/MachineContextProvider";
 import PlayingCard from "./PlayingCard";
 import PlayingCardBack from "./PlayingCardBack";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 
 export default function ComputerHand() {
   const [state, send] = DurakMachineContext.useActor();
@@ -9,21 +9,26 @@ export default function ComputerHand() {
   const computerHand = hands[1];
 
   return (
-    <div>
+    <div className="h-40">
       {hands.length > 0 && (
-        <motion.ul style={{ display: "flex", width: "100%" }}>
+        <motion.ul style={{ display: "flex" }}>
           <AnimatePresence mode="popLayout">
             {computerHand.map((card, index) => (
               <motion.li
-                layout
+                layout="position"
                 layoutId={card.id}
                 key={card.id}
-                // animate={{
-                //   x: -40 * index,
-                // }}
                 transition={{
                   duration: 0.5,
                   ease: "easeInOut",
+                  delay: 0.1 * index,
+                }}
+                style={{
+                  position: "absolute",
+                  left: `${70 * index}px`,
+                  width: "112px",
+                  height: "160px",
+                  top: "20px",
                 }}
               >
                 <PlayingCardBack />

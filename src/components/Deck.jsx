@@ -17,23 +17,18 @@ export default function Deck() {
 
   function setTrumpIcon(trumpCard) {
     let icon;
-    let iconColor;
     switch (trumpCard.suit) {
       case "hearts":
-        icon = <GiHearts />;
-
+        icon = <GiHearts size={40} />;
         break;
       case "diamonds":
-        icon = <GiDiamonds />;
-
+        icon = <GiDiamonds size={40} />;
         break;
       case "spades":
-        icon = <GiSpades />;
-
+        icon = <GiSpades size={40} />;
         break;
       case "clubs":
-        icon = <GiClubs />;
-
+        icon = <GiClubs size={40} />;
         break;
       default:
         break;
@@ -67,7 +62,7 @@ export default function Deck() {
           {deck.length > 0 && <PlayingCard card={trumpCard} />}
         </motion.div>
       )}
-      <motion.ul>
+      <motion.ul style={{ rotate: "2deg" }}>
         <AnimatePresence mode="popLayout">
           {deck.map((card, index) => {
             return (
@@ -87,11 +82,9 @@ export default function Deck() {
         </AnimatePresence>
       </motion.ul>
       {deck.length === 0 && (
-        <>
-          <span className="absolute translate-x-12 translate-y-20">
-            {setTrumpIcon(trumpCard)}
-          </span>
-        </>
+        <div className="absolute translate-x-9 translate-y-14">
+          {setTrumpIcon(trumpCard)}
+        </div>
       )}
     </motion.div>
   );
