@@ -20,10 +20,13 @@ export default function ComputerHand() {
                 layout
                 layoutId={card.id}
                 key={card.id}
+                animate={{
+                  x: -40 * index,
+                }}
                 transition={{
                   duration: 0.5,
                   layout: {
-                    delay: 0.1 * index,
+                    delay: 0.1,
                   },
                 }}
               >
