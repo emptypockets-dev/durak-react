@@ -28,7 +28,7 @@ export default function PlayerHand() {
   }
 
   return (
-    <div>
+    <div className="">
       {hands.length > 0 && (
         <ul style={{ display: "flex", maxWidth: "350px" }}>
           <AnimatePresence mode="popLayout">
@@ -46,7 +46,7 @@ export default function PlayerHand() {
                   ease: "easeInOut",
                   delay: 0.1 * index,
                 }}
-                style={{ width: "1px", flexGrow: 1 }}
+                style={{ width: "1px", maxWidth: "112px", flexGrow: 1 }}
               >
                 <motion.div>
                   <PlayingCard

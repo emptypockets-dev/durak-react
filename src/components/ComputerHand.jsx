@@ -27,6 +27,7 @@ export default function ComputerHand() {
                   position: "absolute",
                   left: `${70 * index}px`,
                   width: "112px",
+                  maxWidth: "112px",
                   height: "160px",
                   top: "20px",
                 }}
