@@ -48,7 +48,13 @@ export default function PlayerHand() {
       dragConstraints={{ left: -100, right: 200 }}
     >
       {hands.length > 0 && (
-        <motion.ul style={{ display: "flex", maxWidth: `${handsWidth}px` }}>
+        <motion.ul
+          style={{
+            display: "flex",
+            maxWidth: `${handsWidth}px`,
+            position: "relative",
+          }}
+        >
           <AnimatePresence mode="popLayout">
             {playerHand.map((card, index) => (
               <motion.li

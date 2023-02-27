@@ -11,7 +11,7 @@ export default function ComputerHand() {
   return (
     <div className="h-40 translate-x-0.5">
       {hands.length > 0 && (
-        <motion.ul style={{ display: "flex" }}>
+        <motion.ul style={{ display: "flex", position: "relative" }}>
           <AnimatePresence mode="popLayout">
             {computerHand.map((card, index) => (
               <motion.li
