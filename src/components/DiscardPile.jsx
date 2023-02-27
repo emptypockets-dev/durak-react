@@ -15,8 +15,9 @@ export default function DiscardPile() {
   }, [discardPile]);
 
   function randomRotation() {
-    var randomNumber =
-      Math.round(Math.random() * 5) * Math.sign(Math.random() - 0.5);
+    const isPositive = Math.random() < 0.9; // generate a boolean with 60% chance of being true
+    const sign = isPositive ? 1 : -1; // set the sign based on the boolean value
+    const randomNumber = Math.round(Math.random() * 20) * sign;
     return randomNumber;
   }
 

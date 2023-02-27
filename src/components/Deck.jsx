@@ -54,9 +54,11 @@ export default function Deck() {
     <motion.div style={{ position: "absolute", top: "175px", right: "175px" }}>
       {trumpCard?.suit && (
         <motion.div
+          initial={{ left: -20 }}
+          animate={{ left: -45 }}
           style={{
             position: "absolute",
-            transform: "rotate(-93deg) translateY(-45px) translateX(5px)",
+            transform: "rotate(-93deg)  translateX(5px)",
           }}
         >
           {deck.length > 0 && <PlayingCard card={trumpCard} />}
@@ -70,6 +72,7 @@ export default function Deck() {
                 layout="position"
                 layoutId={card.id}
                 key={card.id}
+                initial={{ rotate: -2 }}
                 style={{
                   position: "absolute",
                   boxShadow: "-2px 0px 10px rgba(0, 0, 0, 0.04)",
