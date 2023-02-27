@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { DurakMachineContext } from "../providers/MachineContextProvider";
 import PlayingCard from "./PlayingCard";
 import { motion, useTransform, AnimatePresence } from "framer-motion";
@@ -7,11 +7,25 @@ import { LayoutGroup } from "framer-motion";
 export default function PlayerHand() {
   const [state, send] = DurakMachineContext.useActor();
   const hands = DurakMachineContext.useSelector((state) => state.context.hands);
+  const playerHand = DurakMachineContext.useSelector(
+    (state) => state.context.hands[0]
+  );
   const playingField = DurakMachineContext.useSelector(
     (state) => state.context.playingField
   );
 
-  const playerHand = hands[0];
+  const [handsWidth, setHandsWidth] = useState(350);
+
+  useEffect(() => {
+    let width = 70 * playerHand?.length;
+    if (playerHand?.length > 10) {
+      width = 60 * playerHand?.length;
+    }
+    if (playerHand?.length > 14) {
+      width = 50 * playerHand?.length;
+    }
+    setHandsWidth(width);
+  }, [state]);
 
   function handleClick(card) {
     console.log(card);
@@ -30,7 +44,7 @@ export default function PlayerHand() {
   return (
     <div className="translate-x-1">
       {hands.length > 0 && (
-        <ul style={{ display: "flex", maxWidth: "350px" }}>
+        <ul style={{ display: "flex", maxWidth: `${handsWidth}px` }}>
           <AnimatePresence mode="popLayout">
             {playerHand.map((card, index) => (
               <motion.li

@@ -453,6 +453,10 @@ export function computerhasValidAttackCard(context, event) {
   const [playerHand, computerHand] = context.hands;
   const playingField = context.playingField;
 
+  if (playerHand.length === 0) {
+    return false;
+  }
+
   if (context.playingField.length > 0) {
     return checkForMatchingValue(playingField, computerHand);
   } else {
