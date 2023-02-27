@@ -42,17 +42,17 @@ export default function PlayerHand() {
   }
 
   return (
-    <div className="translate-x-1">
+    <motion.div
+      className="translate-x-1"
+      drag="x"
+      dragConstraints={{ left: -100, right: 200 }}
+    >
       {hands.length > 0 && (
         <ul style={{ display: "flex", maxWidth: `${handsWidth}px` }}>
           <AnimatePresence mode="popLayout">
             {playerHand.map((card, index) => (
               <motion.li
                 layout="position"
-                drag
-                dragSnapToOrigin
-                dragElastic={0.2}
-                whileDrag={{ scale: 1.2 }}
                 key={card.id}
                 layoutId={card.id}
                 transition={{
@@ -100,6 +100,6 @@ export default function PlayerHand() {
           )}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
