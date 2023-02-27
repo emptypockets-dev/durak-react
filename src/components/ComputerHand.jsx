@@ -15,7 +15,7 @@ export default function ComputerHand() {
           <AnimatePresence mode="popLayout">
             {computerHand.map((card, index) => (
               <motion.li
-                layout
+                layout="position"
                 layoutId={card.id}
                 key={card.id}
                 transition={{
