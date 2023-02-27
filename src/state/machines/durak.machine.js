@@ -154,7 +154,7 @@ export const durakMachine =
         states: {
           wait: {
             after: {
-              0: "ready",
+              50: "ready",
             },
           },
           ready: {
@@ -182,11 +182,6 @@ export const durakMachine =
         initial: "attacking",
         states: {
           attacking: {
-            entry: assign((context, event) => {
-              return {
-                ...context,
-              };
-            }),
             on: {
               SELECT_CARD: [
                 {
@@ -398,7 +393,7 @@ export const durakMachine =
             states: {
               waiting: {
                 after: {
-                  500: "ready",
+                  1000: "ready",
                 },
               },
               ready: {

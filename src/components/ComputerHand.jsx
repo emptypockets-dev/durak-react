@@ -9,13 +9,13 @@ export default function ComputerHand() {
   const computerHand = hands[1];
 
   return (
-    <div className="h-40">
+    <div className="h-40 translate-x-0.5">
       {hands.length > 0 && (
         <motion.ul style={{ display: "flex" }}>
           <AnimatePresence mode="popLayout">
             {computerHand.map((card, index) => (
               <motion.li
-                layout="position"
+                layout
                 layoutId={card.id}
                 key={card.id}
                 transition={{
@@ -26,10 +26,6 @@ export default function ComputerHand() {
                 style={{
                   position: "absolute",
                   left: `${70 * index}px`,
-                  width: "112px",
-                  maxWidth: "112px",
-                  height: "160px",
-                  maxHeight: "160px",
                   top: "20px",
                 }}
               >

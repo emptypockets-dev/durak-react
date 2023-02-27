@@ -34,28 +34,22 @@ export default function PlayerHand() {
           }}
         >
           {playingField.map((cardPair, index) => (
-            <motion.li
-              key={index}
-              style={{ position: "relative", perspective: "1000px" }}
-            >
-              <AnimatePresence mode="popLayout">
+            <motion.li key={index} style={{ position: "relative" }}>
+              <AnimatePresence mode="wait">
                 <motion.div
-                  layout
-                  transition={{ duration: 0.5 }}
-                  initial={{ scale: 1.35 }}
-                  animate={{ scale: 1 }}
+                  layout="position"
+                  transition={{ duration: 0.25 }}
                   layoutId={cardPair.attack.id}
                 >
                   <PlayingCard card={cardPair.attack} />
                 </motion.div>
               </AnimatePresence>
-              <AnimatePresence mode="popLayout">
+
+              <AnimatePresence mode="wait">
                 {cardPair.defend && (
                   <motion.div
-                    transition={{ duration: 0.5 }}
-                    layout
-                    initial={{ scale: 1.35 }}
-                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.25 }}
+                    layout="position"
                     style={{ position: "absolute", top: "50px" }}
                     layoutId={cardPair.defend.id}
                   >

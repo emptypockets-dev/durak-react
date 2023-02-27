@@ -28,7 +28,7 @@ export default function PlayerHand() {
   }
 
   return (
-    <div className="">
+    <div className="translate-x-1">
       {hands.length > 0 && (
         <ul style={{ display: "flex", maxWidth: "350px" }}>
           <AnimatePresence mode="popLayout">
@@ -42,8 +42,7 @@ export default function PlayerHand() {
                 key={card.id}
                 layoutId={card.id}
                 transition={{
-                  duration: 0.5,
-
+                  duration: 0.25,
                   delay: 0.1 * index,
                 }}
                 style={{
