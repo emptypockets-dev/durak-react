@@ -29,6 +29,7 @@ export default function ComputerHand() {
                   width: "112px",
                   maxWidth: "112px",
                   height: "160px",
+                  maxHeight: "160px",
                   top: "20px",
                 }}
               >

@@ -43,10 +43,15 @@ export default function PlayerHand() {
                 layoutId={card.id}
                 transition={{
                   duration: 0.5,
-                  ease: "easeInOut",
+
                   delay: 0.1 * index,
                 }}
-                style={{ width: "1px", maxWidth: "112px", flexGrow: 1 }}
+                style={{
+                  width: "1px",
+                  maxWidth: "112px",
+                  maxHeight: "160px",
+                  flexGrow: 1,
+                }}
               >
                 <motion.div>
                   <PlayingCard

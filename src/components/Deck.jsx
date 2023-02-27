@@ -62,7 +62,7 @@ export default function Deck() {
           {deck.length > 0 && <PlayingCard card={trumpCard} />}
         </motion.div>
       )}
-      <motion.ul style={{ rotate: "2deg" }}>
+      <motion.ul>
         <AnimatePresence mode="popLayout">
           {deck.map((card, index) => {
             return (
