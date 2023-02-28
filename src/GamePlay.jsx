@@ -26,7 +26,11 @@ export default function GamePlay() {
       {winner ? (
         <div className="h-screen flex flex-col place-content-center place-items-center">
           <h1 className="bg-gold-gradient text-gold-gradient bg-clip-text text-12xl leading-none text-9xl uppercase font-semibold mb-8">
-            {winner === "human" ? "You win!" : "You Lose"}
+            {winner === "human"
+              ? "You win!"
+              : winner === "computer"
+              ? "You Lose"
+              : "It's a tie!"}
           </h1>
           <button
             className="mb-5 bg-gold-gradient text-gold-gradient hover:bg-gold-gradient-reverse hover:text-gold-gradient-reverse bg-clip-text text-5xl uppercase translate-x-1.5"

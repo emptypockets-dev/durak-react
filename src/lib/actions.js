@@ -487,13 +487,26 @@ export function assignWinner(context, event) {
   let winner;
   let currentInstruction;
 
-  if (emptyDeck && emptyHumanHand) {
+  if (emptyDeck && emptyHumanHand && emptyComputerHand) {
+    winner = "both";
+    currentInstruction = "you tied! (computer and human wins)";
+  } else if (emptyDeck && emptyHumanHand) {
     winner = "human";
     currentInstruction = "you win! (human)";
   } else if (emptyDeck && emptyComputerHand) {
-    winner = "compute";
+    winner = "computer";
     currentInstruction = "you lost... (computer wins)";
   }
+
+  // if (emptyDeck && emptyHumanHand) {
+  //   winner = "human";
+  //   currentInstruction = "you win! (human)";
+  // } else if (emptyDeck && emptyComputerHand) {
+  //   winner = "compute";
+  //   currentInstruction = "you lost... (computer wins)";
+  // } else if (emptyDeck && emptyHumanHand && emptyComputerHand) {
+
+  // }
 
   return {
     ...context,
