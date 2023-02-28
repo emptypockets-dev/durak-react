@@ -176,7 +176,29 @@ export const durakMachine =
         },
       },
       gameOver: {
-        type: "final",
+        // type: "final",
+        on: {
+          PLAY_AGAIN: {
+            target: "shuffling",
+            actions: assign({
+              gameConfig: {
+                numPlayers: 2,
+                numCardsPerHand: 6,
+              },
+              deck: [],
+              hands: [],
+              trumpCard: {},
+              playingField: [],
+              defendStatus: false,
+              currentInstruction: "ANOTHER ROUND?",
+              discardPile: [],
+              currentPlayer: "human",
+              winner: null,
+              currentAttack: null,
+            }),
+            always: () => window.location.reload(),
+          },
+        },
       },
       humanTurn: {
         initial: "attacking",

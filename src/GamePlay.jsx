@@ -12,17 +12,28 @@ import { LayoutGroupContext, motion } from "framer-motion";
 import { LayoutGroup } from "framer-motion";
 
 export default function GamePlay() {
+  const [state, send] = DurakMachineContext.useActor();
   const winner = DurakMachineContext.useSelector(
     (state) => state.context.winner
   );
 
+  function handleStartGame() {
+    send("PLAY_AGAIN");
+  }
+
   return (
     <Layout>
       {winner ? (
-        <div className="h-screen flex place-content-center place-items-center">
-          <h1 className="bg-gold-gradient text-gold-gradient bg-clip-text text-12xl leading-none text-9xl uppercase font-semibold">
-            {winner === "human" ? "You win!" : "You lose."}
+        <div className="h-screen flex flex-col place-content-center place-items-center">
+          <h1 className="bg-gold-gradient text-gold-gradient bg-clip-text text-12xl leading-none text-9xl uppercase font-semibold mb-8">
+            {winner === "human" ? "You win!" : "You Lose"}
           </h1>
+          <button
+            className="mb-5 bg-gold-gradient text-gold-gradient hover:bg-gold-gradient-reverse hover:text-gold-gradient-reverse bg-clip-text text-5xl uppercase translate-x-1.5"
+            onClick={handleStartGame}
+          >
+            Play Again
+          </button>
         </div>
       ) : (
         <>
