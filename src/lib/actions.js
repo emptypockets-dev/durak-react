@@ -286,13 +286,10 @@ export function getPlayerWithLowestTrump(context, event) {
 export function attackHuman(context, event) {
   const [playerHand, computerHand] = context.hands;
   let instruction = "computer is attacking you...";
+  const deck = [...context.deck];
+  const trumpSuit = context.trumpCard.suit;
   let attackWithCard;
 
-  // attack with a better card
-  // if there are no cards in the playing area
-  // attack with any card
-  // if there are cards in the playing area
-  // check for matching card first
   console.log("playing field right before options", context.playingField);
   let options = getMatchingValueOptions(context.playingField, computerHand);
   console.log("options", options);
@@ -301,19 +298,12 @@ export function attackHuman(context, event) {
     for (let i = 0; i < computerHand.length; i++) {
       const card = computerHand[i];
       if (options.includes(card.value)) {
-        console.log(card);
+        console.log("card that can attack", card);
         attackWithCard = card;
         computerHand.splice(i, 1);
         break;
       }
     }
-    // for (const card of computerHand) {
-    //   if (options.includes(card.value)) {
-    //     console.log(card);
-    //     attackWithCard = card;
-    //     break;
-    //   }
-    // }
   } else {
     attackWithCard = computerHand.pop();
   }
