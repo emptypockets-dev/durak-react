@@ -18,7 +18,7 @@ const mapValueToDisplay = (value) => {
 export const createDeck = (context, event) => {
   let suits = ["hearts", "diamonds", "spades", "clubs"];
   let values = [6, 7, 8, 9, 10, 11, 12, 13, 14];
-  values = [2, 3, 4, 5];
+  // values = [2, 3, 4, 5];
 
   let unshuffledDeck = [];
   for (let i = 0; i < suits.length; i++) {
