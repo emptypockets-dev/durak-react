@@ -170,9 +170,19 @@ export const durakMachine =
         },
       },
       declareWinner: {
-        entry: assign(assignWinner),
-        always: {
-          target: "gameOver",
+        initial: "wait",
+        states: {
+          wait: {
+            entry: assign(assignWinner),
+            after: {
+              1000: "ready",
+            },
+          },
+          ready: {
+            always: {
+              target: "#Durak.gameOver",
+            },
+          },
         },
       },
       gameOver: {
@@ -190,13 +200,12 @@ export const durakMachine =
               trumpCard: {},
               playingField: [],
               defendStatus: false,
-              currentInstruction: "ANOTHER ROUND?",
+              currentInstruction: "ANOTHER ROUND ON ME!",
               discardPile: [],
               currentPlayer: "human",
               winner: null,
               currentAttack: null,
             }),
-            always: () => window.location.reload(),
           },
         },
       },
@@ -206,6 +215,10 @@ export const durakMachine =
           attacking: {
             on: {
               SELECT_CARD: [
+                {
+                  cond: checkForWin,
+                  target: "#Durak.declareWinner",
+                },
                 {
                   cond: isValidCardSelection,
                   actions: assign({
@@ -400,6 +413,10 @@ export const durakMachine =
                 }),
                 always: [
                   {
+                    cond: checkForWin,
+                    target: "#Durak.declareWinner",
+                  },
+                  {
                     cond: (ctx) => ctx.defendStatus === true,
                     target: "#Durak.humanTurn.attacking",
                   },
@@ -423,7 +440,13 @@ export const durakMachine =
                   const newContext = attackHuman(context, event);
                   return newContext;
                 }),
-                always: { target: "#Durak.humanTurn.defending" },
+                always: [
+                  {
+                    cond: checkForWin,
+                    target: "#Durak.declareWinner",
+                  },
+                  { target: "#Durak.humanTurn.defending" },
+                ],
               },
             },
           },
