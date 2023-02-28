@@ -108,8 +108,13 @@ export function isValidCardSelection(context, event) {
   console.log("checking for isValidCardSelection", event);
   const { card } = event;
   const playingField = context.playingField;
+  const computerHand = context.hands[1];
 
   console.log("cardToCheck from is valid", card);
+
+  if (computerHand.length <= 0) {
+    return false;
+  }
 
   if (playingField.length > 0) {
     /* reduce the playing field into an array of card objects */
